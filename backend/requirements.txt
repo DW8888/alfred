@@ -1,0 +1,19 @@
+# Alfred Backend Dependencies
+
+# Web Framework
+fastapi==0.121.0
+uvicorn[standard]==0.32.0
+
+# Database and ORM
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+pgvector==0.2.3
+
+# Environment Management
+python-dotenv==1.0.1
+
+# AI / LLM Integration
+openai==1.51.0
+
+# Optional Utilities
+pydantic==2.8.2

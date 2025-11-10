@@ -13,3 +13,25 @@ node_modules/
 *.swo
 .idea/
 .vscode/
+# Knowledge base data
+/backend/knowledge_base/data/
+# Logs
+*.log
+logs/
+
+# Pytest / cache
+.pytest_cache/
+.cache/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Compiled models or pickles
+*.pkl
+*.h5
+*.joblib
+
+# SQLite or local dev DBs
+*.db
+*.sqlite3
