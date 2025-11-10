@@ -14,7 +14,8 @@ node_modules/
 .idea/
 .vscode/
 # Knowledge base data
-/backend/knowledge_base/data/
+/backend/knowledge_base/data/* 
+!/backend/knowledge_base/data/.gitkeep
 # Logs
 *.log
 logs/
