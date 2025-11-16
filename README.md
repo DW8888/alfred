@@ -16,6 +16,8 @@ alfred/
 - LLM: OpenAI GPT-4o  
 - Frontend: Next.js  
 - Deployment: AWS (Amplify, RDS, S3)
+- CI-CD GitHub
+- Docker
 ================================================================
 ## Setup
 ```bash
