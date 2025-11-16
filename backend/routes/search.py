@@ -24,7 +24,6 @@ class SearchResult(BaseModel):
 
 @router.post("/", response_model=list[SearchResult])
 def search_artifacts(request: SearchRequest):
-    """Perform semantic search over the artifacts table using pgvector."""
     db: Session = SessionLocal()
 
     try:
@@ -34,7 +33,7 @@ def search_artifacts(request: SearchRequest):
             input=request.query
         ).data[0].embedding
 
-        # Step 2: Run cosine similarity search using pgvector
+        # Step 2: Run vector similarity search using pgvector
         sql = text("""
             SELECT name, source, content,
                    1 - (embedding <=> CAST(:embedding AS vector)) AS similarity
@@ -44,7 +43,6 @@ def search_artifacts(request: SearchRequest):
         """)
 
         results = db.execute(sql, {"embedding": embedding, "top_k": request.top_k}).fetchall()
-        db.close()
 
         # Step 3: Format output
         return [
@@ -52,11 +50,13 @@ def search_artifacts(request: SearchRequest):
                 name=row.name,
                 source=row.source,
                 similarity=float(row.similarity),
-                snippet=row.content[:250]  # show a short preview
+                snippet=row.content[:250]
             )
             for row in results
         ]
 
     except Exception as e:
-        db.close()
         raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db.close()

@@ -2,6 +2,11 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
+
+
+# ------------------------------------------------------
+# Base shared fields
+# ------------------------------------------------------
 class JobBase(BaseModel):
     title: str
     company: Optional[str] = None
@@ -9,12 +14,19 @@ class JobBase(BaseModel):
     description: Optional[str] = None
     source_url: Optional[str] = None
 
+# ------------------------------------------------------
+# Schema for creating a job (incoming POST)
+# ------------------------------------------------------
 class JobCreate(JobBase):
     pass
 
+# ------------------------------------------------------
+# Schema for reading a job (outgoing response)
+# ------------------------------------------------------
 class JobRead(JobBase):
     id: int
-    created_at: datetime
+    created_at: datetime | None = None
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }

@@ -1,6 +1,6 @@
-from sqlalchemy import Column, String, Integer, Text, DateTime, JSON
+from sqlalchemy import Column, String, Integer, Text, DateTime, JSON,UniqueConstraint,TIMESTAMP
 from sqlalchemy.orm import declarative_base
-from datetime import datetime, timezone
+from datetime import datetime, timezone 
 from pgvector.sqlalchemy import Vector
 
 Base = declarative_base()
@@ -11,12 +11,15 @@ class Job(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
-    company = Column(String(255), nullable=True)
-    location = Column(String(255), nullable=True)
-    description = Column(Text, nullable=True)
-    source_url = Column(String(512), nullable=True)
-    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    company = Column(String(255))
+    location = Column(String(255))
+    description = Column(Text)
+    source_url = Column(Text, unique=True)   # ⬅ UNIQUE
+    created_at = Column(TIMESTAMP)
 
+    __table_args__ = (
+        UniqueConstraint("source_url", name="uq_job_source_url"),
+    )
     def __repr__(self):
         return f"<Job(title={self.title}, company={self.company}, location={self.location})>"
 
@@ -43,4 +46,21 @@ class GeneratedArtifact(Base):
     company = Column(String(255))
     artifact_type = Column(String(50))  # e.g. "resume" or "cover_letter"
     content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class ApplicationPackage(Base):
+    __tablename__ = "application_packages"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+
+    job_id = Column(Integer)
+    title = Column(String)
+    company = Column(String)
+    score = Column(String)
+
+    resume_path = Column(String)        # path to saved PDF
+    cover_letter_path = Column(String)  # path to saved PDF
+
+    package_metadata = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)

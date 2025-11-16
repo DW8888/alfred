@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
+
 from sqlalchemy import text
 from backend.db.models import Job
 from backend.db.repo import SessionLocal
@@ -28,12 +30,24 @@ def get_db():
 # CRUD endpoints
 # --------------------------------------------------------------------
 @router.post("/", response_model=JobRead)
+
 def create_job(job: JobCreate, db: Session = Depends(get_db)):
-    new_job = Job(**job.dict())
-    db.add(new_job)
-    db.commit()
-    db.refresh(new_job)
-    return new_job
+
+    db_job = Job(**job.dict())
+
+    try:
+        db.add(db_job)
+        db.commit()
+        db.refresh(db_job)
+        return db_job
+
+    except IntegrityError:
+        db.rollback()
+        # Fetch the existing job instead of erroring
+        existing = db.query(Job).filter(Job.source_url == job.source_url).first()
+
+        return existing
+
 
 @router.get("/", response_model=List[JobRead])
 def get_jobs(db: Session = Depends(get_db)):
@@ -43,7 +57,7 @@ def get_jobs(db: Session = Depends(get_db)):
 # Job matching endpoint
 # --------------------------------------------------------------------
 class JobMatchRequest(BaseModel):
-    job_title: str
+    title: str
     company: str | None = None
     description: str
     top_k: int = 3
@@ -52,13 +66,19 @@ class JobMatchResult(BaseModel):
     name: str
     similarity: float
     snippet: str
+@router.get("/{job_id}")
+def get_job(job_id: int, db: Session = Depends(get_db)):
+    job = db.query(Job).filter(Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return job
 
 @router.post("/match", response_model=dict)
 def match_job(request: JobMatchRequest, db: Session = Depends(get_db)):
     """Compare a job description against stored artifacts using embeddings."""
     try:
         # ✅ Clean all incoming text
-        title = clean_text(request.job_title)
+        title = clean_text(request.title)
         company = clean_text(request.company or "")
         description = clean_text(request.description)
         job_text = f"{title}\n{company}\n{description}"
@@ -109,7 +129,7 @@ def generate_resume(request: JobMatchRequest, db: Session = Depends(get_db)):
     """
     try:
         # ✅ Clean inputs first
-        title = clean_text(request.job_title)
+        title = clean_text(request.title)
         company = clean_text(request.company or "")
         description = clean_text(request.description)
         job_text = f"{title}\n{company}\n{description}"
@@ -178,7 +198,7 @@ def generate_cover_letter(request: JobMatchRequest, db: Session = Depends(get_db
     """
     try:
         # ✅ Clean inputs immediately
-        title = clean_text(request.job_title)
+        title = clean_text(request.title)
         company = clean_text(request.company or "")
         description = clean_text(request.description)
         job_text = f"{title}\n{company}\n{description}"

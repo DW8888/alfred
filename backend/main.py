@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text,TIMESTAMP
 from dotenv import load_dotenv
+
 from backend.db.repo import init_db
-from backend.routes import jobs, search
+from backend.routes import jobs, search, artifacts, github_generate
 import os
 
 # Load environment variables
@@ -20,7 +21,8 @@ def on_startup():
 
 app.include_router(jobs.router)
 app.include_router(search.router)
-
+app.include_router(artifacts.router, prefix="/artifacts")
+app.include_router(github_generate.router)
 @app.get("/health")
 def health_check():
     """Verify API and database connectivity"""
