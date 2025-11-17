@@ -22,11 +22,11 @@ class GitHubIngestionAgent(BaseAgent):
 
     ALLOWED_EXTENSIONS = {
         ".md", ".txt", ".py", ".ipynb", ".r", ".js", ".ts",
-        ".json", ".yaml", ".yml", ".toml", ".java", ".cpp",
+        ".json", ".yaml", ".yml", ".toml", ".java", ".cpp",".pdf"
     }
 
     IGNORED_EXTENSIONS = {
-        ".pdf", ".png", ".jpg", ".jpeg", ".gif", ".svg",
+        ".png", ".jpg", ".jpeg", ".gif", ".svg",
         ".zip", ".exe", ".dll", ".bin"
     }
 
