@@ -1,21 +1,34 @@
-import hashlib
+import base64
+import json
 import requests
 from typing import Dict, Any, Optional, List
+import os
+import re
 
 from .base import BaseAgent, AgentConfig
-from dotenv import load_dotenv
-import os
+
 
 class GitHubIngestionAgent(BaseAgent):
     """
-    Scans a GitHub user's repositories and generates:
-      - Project summaries
-      - Technology tags
-      - Contribution highlights
-    Then ingests them into Alfred's knowledge base as new artifacts.
+    Upgraded agent that:
+      - Reads README files
+      - Reads code files (.py, .js, .java, .r, etc.)
+      - Reads Jupyter notebooks (.ipynb)
+      - Stores *all file contents* into RAG as artifacts
+      - Skips PDFs and binary files
     """
 
     GITHUB_API = "https://api.github.com"
+
+    ALLOWED_EXTENSIONS = {
+        ".md", ".txt", ".py", ".ipynb", ".r", ".js", ".ts",
+        ".json", ".yaml", ".yml", ".toml", ".java", ".cpp",
+    }
+
+    IGNORED_EXTENSIONS = {
+        ".pdf", ".png", ".jpg", ".jpeg", ".gif", ".svg",
+        ".zip", ".exe", ".dll", ".bin"
+    }
 
     def __init__(self, config: AgentConfig, github_username: str, github_token: Optional[str] = None):
         super().__init__("GitHubIngestionAgent", config)
@@ -26,160 +39,135 @@ class GitHubIngestionAgent(BaseAgent):
         if "ingested_repos" not in self.state:
             self.state["ingested_repos"] = []
 
-    # ----------------------------------------------------------------------
-    # GitHub API Helpers
-    # ----------------------------------------------------------------------
-    def github_headers(self) -> Dict[str, str]:
-        """Authorization header if a token is provided."""
-        headers = {
-            "Accept": "application/vnd.github+json"
-        }
+    # ------------------------------------------------------
+    # GitHub API helpers
+    # ------------------------------------------------------
+    def headers(self):
+        h = {"Accept": "application/vnd.github+json"}
         if self.github_token:
-            headers["Authorization"] = f"Bearer {self.github_token}"
-        return headers
+            h["Authorization"] = f"Bearer {self.github_token}"
+        return h
 
-    def fetch_repos(self) -> Optional[List[Dict[str, Any]]]:
-        """Retrieve list of public repos for the given GitHub username."""
+    def fetch_repos(self):
         url = f"{self.GITHUB_API}/users/{self.github_username}/repos?per_page=100"
         try:
-            resp = requests.get(url, headers=self.github_headers(), timeout=30)
+            resp = requests.get(url, headers=self.headers(), timeout=30)
             resp.raise_for_status()
             return resp.json()
         except Exception as e:
             self.logger.error(f"GitHub repo fetch failed: {e}")
             return None
 
-    def already_ingested(self, repo: Dict[str, Any]) -> bool:
-        """Avoid duplicates using repo name + last updated timestamp."""
-        fingerprint = f"{repo.get('name')}::{repo.get('updated_at')}"
-        return fingerprint in self.state["ingested_repos"]
-
-    def mark_ingested(self, repo: Dict[str, Any]):
-        fingerprint = f"{repo.get('name')}::{repo.get('updated_at')}"
-        self.state["ingested_repos"].append(fingerprint)
-
-    # ----------------------------------------------------------------------
-    # Summarization + Ingestion
-    # ----------------------------------------------------------------------
-    def summarize_repo(self, repo: Dict[str, Any]) -> Optional[str]:
-        """
-        Ask the backend's generator model to create a structured project summary.
-        This ensures consistent, factual artifact content.
-        """
-        description = repo.get("description") or "No description provided."
-        name = repo.get("name", "Unnamed Repository")
-        languages_url = repo.get("languages_url")
-
-        # Fetch languages
-        languages = []
+    def fetch_repo_tree(self, repo_name: str) -> Optional[List[Dict]]:
+        """Fetch recursive file tree of the repo."""
+        url = f"{self.GITHUB_API}/repos/{self.github_username}/{repo_name}/git/trees/master?recursive=1"
         try:
-            resp = requests.get(languages_url, headers=self.github_headers(), timeout=30)
+            resp = requests.get(url, headers=self.headers(), timeout=30)
             resp.raise_for_status()
-            lang_data = resp.json()
-            languages = list(lang_data.keys())
-        except Exception:
-            pass
-
-        prompt = f"""
-You are creating a structured summary of a GitHub project for use in job applications.
-
-Repository: {name}
-Description: {description}
-Languages: {', '.join(languages)}
-
-Produce:
-- Project Overview (2–3 sentences)
-- Key Technologies (list)
-- key software development life cycle contributions
-- If Data Science/ML, mention datasets/models used
-"""
-
-        payload = {"prompt": prompt}
-        resp = self.api_post("/generate/github_summary", payload)
-
-        if resp is None:
+            return resp.json().get("tree", [])
+        except Exception as e:
+            self.logger.error(f"Failed to fetch file tree for {repo_name}: {e}")
             return None
 
-        return resp.get("summary_text")
+    # ------------------------------------------------------
+    # Content Downloading
+    # ------------------------------------------------------
+    def download_file(self, repo: str, path: str) -> Optional[str]:
+        """Download the raw file content."""
+        raw_url = f"https://raw.githubusercontent.com/{self.github_username}/{repo}/master/{path}"
+        try:
+            resp = requests.get(raw_url, headers=self.headers(), timeout=30)
+            if resp.status_code != 200:
+                return None
+            return resp.text
+        except Exception:
+            return None
 
-    def ingest_summary(self, repo_name: str, summary_text: str) -> Optional[Dict]:
-        """
-        Store the project summary in Alfred's knowledge base as an artifact.
-        """
+    def parse_ipynb(self, raw: str) -> str:
+        """Extract readable content from .ipynb file."""
+        try:
+            data = json.loads(raw)
+            text_chunks = []
+
+            for cell in data.get("cells", []):
+                if cell.get("cell_type") == "markdown":
+                    text_chunks.append("\n".join(cell.get("source", [])))
+                elif cell.get("cell_type") == "code":
+                    text_chunks.append("\n```python\n" + "".join(cell.get("source", [])) + "\n```")
+
+            return "\n\n".join(text_chunks)
+
+        except Exception:
+            return ""
+
+    # ------------------------------------------------------
+    # Ingestion
+    # ------------------------------------------------------
+    def ingest_file(self, repo: str, path: str, content: str):
+        ext = os.path.splitext(path)[1].lower()
+
         payload = {
-            "name": f"GitHub Project: {repo_name}",
-            "content": summary_text,
-            "source": "github",
+            "name": f"GitHub File: {repo}/{path}",
+            "content": content,
+            "source": "github_source_file",
             "metadata": {
-                "repo_name": repo_name
+                "repo": repo,
+                "path": path,
+                "extension": ext,
             }
         }
+
         return self.api_post("/artifacts/ingest_raw", payload)
 
-    # ----------------------------------------------------------------------
-    # Main Step
-    # ----------------------------------------------------------------------
+    # ------------------------------------------------------
+    # Main Loop
+    # ------------------------------------------------------
     def step(self):
-        self.logger.info("Checking GitHub for new repositories...")
+        self.logger.info("Checking GitHub for updated repositories...")
 
         repos = self.fetch_repos()
         if repos is None:
-            self.logger.error("No repositories fetched.")
             return
 
         for repo in repos:
-            name = repo.get("name")
-            if self.already_ingested(repo):
+            repo_name = repo.get("name")
+            updated_at = repo.get("updated_at")
+
+            fingerprint = f"{repo_name}::{updated_at}"
+            if fingerprint in self.state["ingested_repos"]:
                 continue
 
-            self.logger.info(f"Ingesting GitHub repository: {name}")
+            self.logger.info(f"📥 Ingesting repo: {repo_name}")
 
-            summary = self.summarize_repo(repo)
-            if summary is None:
-                self.logger.error(f"Summary generation failed for {name}")
+            tree = self.fetch_repo_tree(repo_name)
+            if tree is None:
                 continue
 
-            self.logger.info(f"Summary generated for {name}")
+            for item in tree:
+                if item.get("type") != "blob":
+                    continue
 
-            resp = self.ingest_summary(name, summary)
-            if resp is None:
-                self.logger.error(f"Artifact ingestion failed for {name}")
-                continue
+                path = item["path"]
+                ext = os.path.splitext(path)[1].lower()
 
-            self.mark_ingested(repo)
-            self.logger.info(f"Ingested GitHub project '{name}' as artifact ID {resp.get('id')}")
+                # skip ignored extensions
+                if ext in self.IGNORED_EXTENSIONS:
+                    continue
+
+                # skip weird binary files
+                if not any(path.endswith(a) for a in self.ALLOWED_EXTENSIONS):
+                    continue
+
+                raw = self.download_file(repo_name, path)
+                if raw is None:
+                    continue
+
+                if ext == ".ipynb":
+                    raw = self.parse_ipynb(raw)
+
+                self.ingest_file(repo_name, path, raw)
+
+            self.state["ingested_repos"].append(fingerprint)
+            self.logger.info(f"✔ Completed ingestion for {repo_name}")
 
         self.logger.info("GitHub ingestion step complete.")
-# ---------------------------------------------------------
-# Manual Launcher
-# ---------------------------------------------------------
-if __name__ == "__main__":
-    import os
-    from backend.agents.base import AgentConfig
-
-    # Load env vars
-    from dotenv import load_dotenv
-    load_dotenv()
-
-    api_base = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
-    github_username = os.getenv("GITHUB_USERNAME")
-    github_token = os.getenv("GITHUB_TOKEN")
-
-    if not github_username:
-        raise ValueError("❌ Missing GITHUB_USERNAME in .env")
-
-    # Shared config
-    config = AgentConfig(
-        backend_url=api_base,
-        state_path="github_ingestion_state.json",
-        sleep_interval=10
-    )
-
-    agent = GitHubIngestionAgent(
-        config=config,
-        github_username=github_username,
-        github_token=github_token
-    )
-
-    print("➡️ GitHubIngestionAgent starting...")
-    agent.run()
