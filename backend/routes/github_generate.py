@@ -35,4 +35,4 @@ def generate_github_summary(payload: dict):
         return {"summary_text": summary_text}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))  

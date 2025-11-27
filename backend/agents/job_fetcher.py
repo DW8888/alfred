@@ -73,11 +73,11 @@ class JobFetcherAgent(BaseAgent):
         resp = self.api_post("/jobs/", payload)
 
         if resp and resp.get("duplicate"):
-            self.logger.info(f"⏭️ Duplicate skipped: {payload['title']}")
+            self.logger.info(f"__ Duplicate skipped: {payload['title']}")
         elif resp:
-            self.logger.info(f"✔️ Inserted job: {payload['title']}")
+            self.logger.info(f">> Inserted job: {payload['title']}")
         else:
-            self.logger.error("❌ Failed to insert job into backend")
+            self.logger.error("XX Failed to insert job into backend")
 
 
         # -----------------------------------------
@@ -87,21 +87,21 @@ class JobFetcherAgent(BaseAgent):
             self.state["seen_job_urls"].append(url)
             self._save_state()
 
-        self.logger.info(f"✔️ Inserted job: {payload['title']}")
+        self.logger.info(f"OK Inserted job: {payload['title']}")
 
     def step(self):
-        self.logger.info("🔍 Fetcher: checking Adzuna for new jobs...")
+        self.logger.info("... Fetcher: checking Adzuna for new jobs...")
         print("DEBUG:", os.getenv("ADZUNA_AI_ID"), os.getenv("ADZUNA_API_KEY"))
 
         jobs = self.fetch_adzuna_jobs()
         if not jobs:
-            self.logger.info("ℹ️ No jobs found.")
+            self.logger.info("!! No jobs found.")
             return
 
         for job in jobs:
             self.insert_job(job)
 
-        self.logger.info("✅ Fetch cycle complete.")
+        self.logger.info("<!> Fetch cycle complete.")
 
 
 # -----------------------------
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     config = AgentConfig(
         backend_url=api_base,
         state_path="fetcher_state.json",
-        sleep_interval=30
+        sleep_interval=3300 ,# 55 minutes 
     )
 
     agent = JobFetcherAgent(config)
