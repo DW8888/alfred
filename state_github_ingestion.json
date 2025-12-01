@@ -1,5 +1,4 @@
 {
-  "ingested_repos": [],
   "repos": {
     "alfred": {
       "files": {
@@ -155,7 +154,6 @@
         "Visualizations/Story4/airbnb_files/libs/revealjs/dist/reveal.js": "721cb23992af4032e37b3a3f23ac4f6e9fa35cec",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/highlight/highlight.esm.js": "20f35d7b9eecbeedd6c5a4d94e8991d9bc5d4865",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/highlight/highlight.js": "b2529bf3cd741d35b2fae718b393827c575761ef",
-        "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/highlight/plugin.js": "6e893e93995f1608304d692af3e5b90695263778",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/markdown/markdown.esm.js": "628a8919bc2d40320b509d24eca68d1609783b62",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/markdown/markdown.js": "42eb9bd1cfa21be2fdf3ea1855c0b5bbd3bdf3ae",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/markdown/plugin.js": "db1cbf2992fe993f1bf03c4908c2873b912b7dd5",
@@ -179,7 +177,6 @@
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js": "967405369778529afe8c3759bdcb255cf0f07a73",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/search/plugin.js": "5d09ce6ab41670455a9fca949fe57c59b7146594",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/search/search.esm.js": "b401a7071d9a91c402c5139cfb0573dc2670b10a",
-        "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/search/search.js": "bcabf7211b8b4910e2b7da259992e23d3fc42780",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/zoom/plugin.js": "960fb8108907d55523f916b0a0b747b7eac3080e",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/zoom/zoom.esm.js": "c0e8d7b67a77b0cea6243f12af884ec35c5a5b2b",
         "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/zoom/zoom.js": "b52804d66ce86c7e8d7c4630a6bc8f132fd0e86e",
@@ -258,12 +255,13 @@
         "Visualizations/story5/story5_files/libs/revealjs/plugin/zoom/zoom.js": "b52804d66ce86c7e8d7c4630a6bc8f132fd0e86e",
         "story3/ICPSR_37363/37363-manifest.txt": "f72d25efdf6596d6c007d2c48082bc5943e0a15b",
         "story3/ICPSR_37363/37363-related_literature.txt": "1f5519bf0f26f2bf177e093b699d307fdb674e7c",
-        "story3/ICPSR_37363/factor_to_numeric_icpsr.R": "21af4c0e13fd8fc387902416e8512333349f2057"
+        "story3/ICPSR_37363/factor_to_numeric_icpsr.R": "21af4c0e13fd8fc387902416e8512333349f2057",
+        "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/highlight/plugin.js": "6e893e93995f1608304d692af3e5b90695263778",
+        "Visualizations/Story4/airbnb_files/libs/revealjs/plugin/search/search.js": "bcabf7211b8b4910e2b7da259992e23d3fc42780"
       }
     },
     "Data620": {
       "files": {
-        "Assignment1.ipynb": "5c13ac081b63e98e8fac2da788ab83e7bcfe5e8b",
         "Assignment2.ipynb": "39a8b65c62c2aefb07e8547e76390fa89abea304",
         "Chapter3SAN.ipynb": "7232c4e06394e3429fac25a24c99f9c28260420a",
         "NLP/hfw.ipynb": "dbd21f515737b0859f8ca8f748a15e896421f9e0",
@@ -280,7 +278,8 @@
         "project1/news_publishers_centrality_files/libs/quarto-html/popper.min.js": "e3726d728b717eb344760b3db47f7e9b142ed0fb",
         "project1/news_publishers_centrality_files/libs/quarto-html/quarto.js": "39e6869927061bfed0e6e3c92a0b7455b330ddbd",
         "project1/news_publishers_centrality_files/libs/quarto-html/tippy.umd.min.js": "ca292be32b252f9a40e231f3a3e696b2506f7c96",
-        "spam_ham/spam_classificator.ipynb": "1be53b5da07ddae0ffbd583baa504f7bd6f54576"
+        "spam_ham/spam_classificator.ipynb": "1be53b5da07ddae0ffbd583baa504f7bd6f54576",
+        "Assignment1.ipynb": "5c13ac081b63e98e8fac2da788ab83e7bcfe5e8b"
       }
     },
     "data621": {
@@ -402,5 +401,6 @@
         "logosBackground.js": "89ee0626300619008d48b6d127d7f7af35422ad1"
       }
     }
-  }
+  },
+  "ingested_repos": []
 }

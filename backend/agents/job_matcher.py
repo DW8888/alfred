@@ -1,123 +1,157 @@
+# backend/agents/job_matcher.py
 from typing import List, Dict, Any, Optional
 
+from backend.queue.simple_queue import SimpleQueue
 from .base import BaseAgent, AgentConfig
 
 
 class JobMatcherAgent(BaseAgent):
     """
-    Agent Responsibilities:
-      - Retrieve job descriptions from backend
-      - Identify new or unprocessed jobs
-      - Run vector similarity matching via /jobs/match
-      - Store match results persistently
-      - Forward strong matches for other agents
+    Hybrid Job Matcher
+    ------------------
+    Matches job descriptions to user artifacts using:
+      - semantic similarity
+      - (LLM) skill overlap via /jobs/match
+      - combined hybrid score (computed in backend)
+
+    Produces:
+      processed_jobs[job_id] = { score, matches }
+
+    Strong matches are pushed into:
+      resume_queue.json
     """
 
-    MATCH_THRESHOLD = 0.75  # Adjust based on embeddings quality
+    MATCH_THRESHOLD = 0.46  # tuned empirically for combined_score
+    MIN_DESC_LEN = 80       # ignore ultra-short / broken job posts
 
     def __init__(self, config: AgentConfig):
         super().__init__("JobMatcher", config)
 
-        # Initialize state keys if missing
-        if "processed_jobs" not in self.state:
-            self.state["processed_jobs"] = {}
-        if "strong_matches" not in self.state:
-            self.state["strong_matches"] = []
+        self.state.setdefault("processed_jobs", {})
 
-    # ----------------------------------------------------------------------
-    # Utilities
-    # ----------------------------------------------------------------------
+        # Queue used to send work to ResumeAgent
+        self.resume_queue = SimpleQueue("resume_queue.json")
+
+    # ----------------------------------------------------------
+    # Helpers
+    # ----------------------------------------------------------
     def fetch_jobs(self) -> Optional[List[Dict[str, Any]]]:
-        """Fetch all jobs from the backend."""
         resp = self.api_get("/jobs/")
         if resp is None:
             return None
 
-        if "jobs" in resp:
+        if isinstance(resp, dict) and "jobs" in resp:
             return resp["jobs"]
 
-        return resp  # If backend simply returns list
+        return resp
 
     def match_job(self, job: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """Run vector similarity search on a job description."""
         payload = {
-    "title": job.get("title", ""),
-    "company": job.get("company", "") or "",
-    "description": job.get("description", "") or "",
-    "top_k": 10
-    }
-
+            "title": job.get("title", ""),
+            "company": job.get("company", "") or "",
+            "description": job.get("description", "") or "",
+            "top_k": 10,
+        }
         return self.api_post("/jobs/match", payload)
 
-    # ----------------------------------------------------------------------
-    # Core Logic
-    # ----------------------------------------------------------------------
     def is_processed(self, job_id: int) -> bool:
-        """Check if job was already matched."""
         return str(job_id) in self.state["processed_jobs"]
 
     def evaluate_match_strength(self, match_results: Dict[str, Any]) -> float:
-        """
-        Compute average similarity score from /jobs/match response.
-        """
         matches = match_results.get("matches", [])
         if not matches:
             return 0.0
 
-        scores = [m.get("similarity", 0.0) for m in matches]
+        scores: List[float] = []
+        for m in matches:
+            if "combined_score" in m:
+                scores.append(float(m["combined_score"]))
+            elif "similarity" in m:
+                scores.append(float(m["similarity"]))
+
+        if not scores:
+            return 0.0
+
         return sum(scores) / len(scores)
 
-
-    # ----------------------------------------------------------------------
-    # Main Loop Step
-    # ----------------------------------------------------------------------
+    # ----------------------------------------------------------
+    # Main Step
+    # ----------------------------------------------------------
     def step(self):
-        self.logger.info("Polling for new jobs...")
+
+        self.logger.info("===>>> JobMatcher: polling backend for new jobs...")
 
         jobs = self.fetch_jobs()
         if jobs is None:
-            self.logger.error("Failed to fetch jobs.")
+            self.logger.error("--XX-- Backend returned no jobs")
             return
+
+        # Clean stale processed jobs
+        existing_ids = {j.get("id") for j in jobs if j.get("id") is not None}
+        stored_ids = set(self.state["processed_jobs"].keys())
+
+        for stale in stored_ids - {str(i) for i in existing_ids}:
+            del self.state["processed_jobs"][stale]
 
         for job in jobs:
             job_id = job.get("id")
-
             if job_id is None:
                 continue
 
-            # Skip if already processed
+            title = job.get("title", "Unknown")
+            desc = job.get("description", "") or ""
+
+            # Already processed?
             if self.is_processed(job_id):
                 continue
 
-            self.logger.info(f"Processing job {job_id}: {job.get('title', 'Unknown')}")
+            # Skip garbage posts
+            if len(desc) < self.MIN_DESC_LEN:
+                self.logger.info(f"--XX-- Skipping job {job_id} (description too short)")
+                self.state["processed_jobs"][str(job_id)] = {
+                    "score": 0.0,
+                    "matches": [],
+                }
+                self._save_state()
+                continue
 
-            # Perform vector matching
+            self.logger.info(f"===>>> Matching job {job_id}: {title}")
+
             results = self.match_job(job)
             if results is None:
-                self.logger.error(f"Matching failed for job {job_id}")
+                self.logger.error(f"--XX-- /jobs/match failed for job {job_id}")
                 continue
 
             score = self.evaluate_match_strength(results)
-            self.logger.info(f"Match score for job {job_id}: {score:.4f}")
+            self.logger.info(f"===>>> Hybrid score for job {job_id}: {score:.4f}")
 
-            # Save results in persistent state
+            # Save processed record
             self.state["processed_jobs"][str(job_id)] = {
-        "score": score,
-        "matches": results.get("matches", [])
+                "score": score,
+                "matches": results.get("matches", []),
             }
+            self._save_state()
 
-
-            # Flag strong matches
+            # ----------------------------------------------------------
+            # Strong Match → push to resume queue
+            # ----------------------------------------------------------
             if score >= self.MATCH_THRESHOLD:
-                self.state["strong_matches"].append({
+                self.logger.info(
+                    f"--OK-- Strong match detected (score={score:.4f}) for job {job_id}"
+                )
+
+                self.resume_queue.push({
                     "job_id": job_id,
-                    "title": job.get("title"),
+                    "title": title,
                     "score": score,
                 })
 
-                self.logger.info(f"Strong match found for job {job_id} (score {score:.4f})")
+        self.logger.info("--OK-- JobMatcher step complete.")
 
-        self.logger.info("JobMatcher step complete.")
+
+# ----------------------------------------------------------
+# Standalone Launcher
+# ----------------------------------------------------------
 if __name__ == "__main__":
     import os
     from backend.agents.base import AgentConfig
@@ -125,12 +159,11 @@ if __name__ == "__main__":
     api_base = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
 
     config = AgentConfig(
-        backend_url=api_base,      # <-- FIXED NAME
+        backend_url=api_base,
         state_path="matcher_state.json",
-        sleep_interval=5
+        sleep_interval=5,
     )
 
     agent = JobMatcherAgent(config)
-    print("➡️ JobMatcherAgent starting...")
+    print("===>>> JobMatcherAgent starting...")
     agent.run()
-

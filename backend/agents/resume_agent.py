@@ -2,130 +2,153 @@ import os
 import re
 from typing import Dict, Any, Optional
 
+from dotenv import load_dotenv
+
 from .base import BaseAgent, AgentConfig
+from backend.queue.simple_queue import SimpleQueue
 from backend.utils.pdf_writer import write_pdf
 from backend.db.repo import SessionLocal
-from backend.db.models import ApplicationPackage
+from backend.db.models import ApplicationPackage, GeneratedArtifact
 
 
-# -------------------------
+# -------------------------------------------------------------------
 # Filename Sanitizer
-# -------------------------
+# -------------------------------------------------------------------
 def safe_filename(text: str) -> str:
     text = text.strip().replace(" ", "_")
     return re.sub(r"[^A-Za-z0-9_]+", "", text)
 
 
-# -------------------------
+# -------------------------------------------------------------------
 # Output Directories
-# -------------------------
+# -------------------------------------------------------------------
 BASE_DIR = "backend/generated"
 RESUME_DIR = os.path.join(BASE_DIR, "resumes")
-
 os.makedirs(RESUME_DIR, exist_ok=True)
 
 
 class ResumeAgent(BaseAgent):
     """
-    Generates ONLY resumes for strong matched jobs.
+    ResumeAgent V3 (Queue-Based)
+    -----------------------------
+    Responsibilities:
 
-    Workflow:
-      1. Pop a strong match
-      2. Fetch job details
-      3. Call /jobs/generate_resume
-      4. Save PDF
-      5. Insert into DB
-      6. Mark job complete
+      1. Pull a job request from resume_queue.json
+      2. Fetch job details from backend
+      3. Generate resume text via /jobs/generate_resume
+      4. Save resume to PDF
+      5. Store result in:
+           - ApplicationPackage
+           - GeneratedArtifact (artifact_type='resume')
+      6. Push job forward into cover_letter_queue.json
+      7. Mark job as completed in internal state
+
+    This agent does NOT decide how resumes are written.
+    The logic lives inside /jobs/generate_resume.
     """
 
     def __init__(self, config: AgentConfig):
         super().__init__("ResumeAgent", config)
 
-        if "completed_resumes" not in self.state:
-            self.state["completed_resumes"] = {}
+        # Local state: avoid reprocessing already-completed jobs
+        self.state.setdefault("completed_resumes", {})
 
-    # -------------------------
+        # Queue: incoming strong matches
+        self.resume_queue = SimpleQueue("resume_queue.json")
+
+        # Queue: downstream for cover letters
+        self.cover_letter_queue = SimpleQueue("cover_letter_queue.json")
+
+    # -------------------------------------------------------------------
     # Backend Helpers
-    # -------------------------
+    # -------------------------------------------------------------------
     def fetch_job(self, job_id: int) -> Optional[Dict[str, Any]]:
         return self.api_get(f"/jobs/{job_id}")
 
-    def generate_resume(self, title: str, company: str, description: str) -> Optional[str]:
+    def generate_resume(
+        self,
+        title: str,
+        company: str,
+        description: str,
+        extra_config: Optional[Dict[str, Any]] = None,
+    ) -> Optional[str]:
+
         payload = {
             "title": title,
             "company": company,
             "description": description,
-            "top_k": 5
+            "top_k": 5,
         }
+
+        if extra_config:
+            payload["config"] = extra_config
+
         resp = self.api_post("/jobs/generate_resume", payload)
         if not resp:
             return None
+
         return resp.get("generated_resume")
 
-    # -------------------------
-    # State Helpers
-    # -------------------------
-    def get_next_match(self):
-        matches = self.state.get("strong_matches", [])
-        if matches:
-            return matches.pop(0)
-        return None
-
-    def is_completed(self, job_id: int) -> bool:
-        return str(job_id) in self.state["completed_resumes"]
-
-    # -------------------------
-    # Main Step()
-    # -------------------------
+    # -------------------------------------------------------------------
+    # Main Step
+    # -------------------------------------------------------------------
     def step(self):
 
-        self.logger.info("ResumeAgent: checking for strong matches...")
+        self.logger.info("===>>> ResumeAgent: polling resume_queue.json...")
 
-        match = self.get_next_match()
-        if not match:
-            self.logger.info("ResumeAgent: no matches pending.")
+        job_item = self.resume_queue.pop()
+
+        if not job_item:
+            self.logger.info("ResumeAgent: queue empty.")
             return
 
-        job_id = match["job_id"]
-        score = match["score"]
+        job_id = job_item.get("job_id")
+        score = job_item.get("score", 0)
 
-        if self.is_completed(job_id):
-            self.logger.info(f"ResumeAgent: job {job_id} already processed.")
+        if job_id is None:
+            self.logger.error("--XX-- Malformed queue message: missing job_id")
             return
 
+        if str(job_id) in self.state["completed_resumes"]:
+            self.logger.info(f"--OK-- Resume already generated for job {job_id}")
+            return
+
+        # Fetch job details
         job = self.fetch_job(job_id)
         if not job:
-            self.logger.error(f"ResumeAgent: failed to fetch job {job_id}")
+            self.logger.error(f"--XX-- Unable to fetch job {job_id}")
             return
 
         title = job.get("title", "")
         company = job.get("company", "")
         description = job.get("description", "")
 
-        # -------------------------
-        # Generate Resume Text
-        # -------------------------
+        # -------------------------------------------------------------------
+        # Generate Resume
+        # -------------------------------------------------------------------
         resume_text = self.generate_resume(title, company, description)
         if resume_text is None:
-            self.logger.error(f"ResumeAgent: resume generation failed for job {job_id}")
+            self.logger.error(f"--XX-- Resume generation failed for job {job_id}")
             return
 
-        # -------------------------
-        # Build filename
-        # -------------------------
-        prefix = f"{job_id}_{safe_filename(company)}_{safe_filename(title)}"
-        pdf_path = os.path.join(RESUME_DIR, prefix + ".pdf")
+        # Write PDF
+        filename_prefix = f"{job_id}_{safe_filename(company)}_{safe_filename(title)}"
+        pdf_path = os.path.join(RESUME_DIR, filename_prefix + ".pdf")
 
-        # Write to disk
-        write_pdf(pdf_path, resume_text)
+        try:
+            write_pdf(pdf_path, resume_text)
+        except Exception as e:
+            self.logger.error(f"--XX-- Failed writing PDF for job {job_id}: {e}")
+            return
 
-        self.logger.info(f"ResumeAgent: saved PDF → {pdf_path}")
+        self.logger.info(f"--OK-- PDF saved → {pdf_path}")
 
-        # -------------------------
-        # Insert DB record
-        # -------------------------
+        # -------------------------------------------------------------------
+        # Save to DB
+        # -------------------------------------------------------------------
         db = SessionLocal()
         try:
+            # Application Package record
             pkg = ApplicationPackage(
                 job_id=job_id,
                 title=title,
@@ -133,27 +156,73 @@ class ResumeAgent(BaseAgent):
                 score=str(score),
                 resume_path=pdf_path,
                 cover_letter_path=None,
-                package_metadata={"agent": "ResumeAgent"}
+                package_metadata={"agent": "ResumeAgent"},
             )
             db.add(pkg)
+
+            # Save full text into GeneratedArtifact
+            ga = GeneratedArtifact(
+                job_title=title,
+                company=company,
+                artifact_type="resume",
+                content=resume_text,
+            )
+            db.add(ga)
+
             db.commit()
             db.refresh(pkg)
+            db.refresh(ga)
+
+            self.logger.info(
+                f"--OK-- DB saved: ApplicationPackage.id={pkg.id}, GeneratedArtifact.id={ga.id}"
+            )
+
         except Exception as e:
             db.rollback()
-            self.logger.error(f"ResumeAgent: DB error: {e}")
+            self.logger.error(f"--XX-- DB error for job {job_id}: {e}")
             return
         finally:
             db.close()
 
-        # -------------------------
-        # Update State
-        # -------------------------
+        # -------------------------------------------------------------------
+        # Push job to next queue: cover letters
+        # -------------------------------------------------------------------
+        self.cover_letter_queue.push({
+            "job_id": job_id,
+            "score": score,
+            "title": title,
+            "company": company,
+        })
+
+        # -------------------------------------------------------------------
+        # Mark complete
+        # -------------------------------------------------------------------
         self.state["completed_resumes"][str(job_id)] = {
             "job_id": job_id,
             "title": title,
             "company": company,
+            "score": score,
             "resume_pdf": pdf_path,
-            "score": score
         }
+        self._save_state()
 
-        self.logger.info(f"ResumeAgent: DONE job {job_id}")
+        self.logger.info(f"--OK-- ResumeAgent: DONE job {job_id}")
+
+
+# -------------------------------------------------------------------
+# Launcher
+# -------------------------------------------------------------------
+if __name__ == "__main__":
+    load_dotenv()
+
+    api_base = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
+
+    config = AgentConfig(
+        backend_url=api_base,
+        state_path="resume_agent_state.json",
+        sleep_interval=5,
+    )
+
+    agent = ResumeAgent(config)
+    print("===>>> ResumeAgent starting...")
+    agent.run()

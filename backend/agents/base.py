@@ -91,7 +91,7 @@ class BaseAgent(ABC):
         """
         try:
             url = f"{self.config.backend_url}{path}"
-            resp = requests.post(url, json=payload, timeout=30)
+            resp = requests.post(url, json=payload, timeout=180)
             resp.raise_for_status()
             return resp.json()
         except Exception as e:

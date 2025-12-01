@@ -1,8 +1,12 @@
+# backend/agents/job_fetcher.py
 from dotenv import load_dotenv
 load_dotenv()
+
 import os
+import hashlib
 import requests
 from typing import List, Dict, Optional, Any
+
 from .base import BaseAgent, AgentConfig
 
 
@@ -12,54 +16,80 @@ class JobFetcherAgent(BaseAgent):
     Includes dedupe so we don't reinsert the same job repeatedly.
     """
 
-    BASE_URL = "https://api.adzuna.com/v1/api/jobs/us/search/1"
+    BASE_URL = "https://api.adzuna.com/v1/api/jobs/us/search"
+    MAX_PAGES = 3  # fetch first 3 pages -> up to ~60 jobs
 
     def __init__(self, config: AgentConfig):
         super().__init__("JobFetcher", config)
 
         # -----------------------------------------
-        # DEDUPE: track URLs we've already submitted
+        # DEDUPE: track fingerprints we've already submitted
         # -----------------------------------------
-        if "seen_job_urls" not in self.state:
-            self.state["seen_job_urls"] = []
+        if "seen_job_hashes" not in self.state:
+            self.state["seen_job_hashes"] = []
+
+    # -----------------------------------------
+    # Helper: job fingerprint
+    # -----------------------------------------
+    def job_fingerprint(self, job: Dict[str, Any]) -> str:
+        """
+        Deterministic hash based on title + company + description.
+        This survives redirect_url churn.
+        """
+        title = job.get("title", "") or ""
+        company = (job.get("company", {}) or {}).get("display_name", "") or ""
+        desc = job.get("description", "") or ""
+        key = (title + "|" + company + "|" + desc).strip().lower()
+        return hashlib.sha256(key.encode("utf-8")).hexdigest()
 
     def fetch_adzuna_jobs(self) -> Optional[List[Dict[str, Any]]]:
-        """Fetch Data Engineering jobs in NYC from Adzuna."""
+        """Fetch Data Engineering jobs in NYC from Adzuna with basic pagination."""
 
         app_id = os.getenv("ADZUNA_AI_ID")
         api_key = os.getenv("ADZUNA_API_KEY")
 
         if not app_id or not api_key:
-            self.logger.error("❌ ADZUNA_API_KEY or ADZUNA_AI_ID missing")
+            self.logger.error("--XX-- ADZUNA_API_KEY or ADZUNA_AI_ID missing")
             return None
 
-        params = {
-            "app_id": app_id,
-            "app_key": api_key,
-            "what": "data engineer",
-            "where": "New York City",
-            "results_per_page": 20,
-            "content-type": "application/json"
-        }
+        all_results: List[Dict[str, Any]] = []
 
-        try:
-            response = requests.get(self.BASE_URL, params=params, timeout=30)
-            response.raise_for_status()
-            return response.json().get("results", [])
-        except Exception as e:
-            self.logger.error(f"❌ Adzuna request failed: {e}")
-            return None
+        for page in range(1, self.MAX_PAGES + 1):
+            url = f"{self.BASE_URL}/{page}"
+
+            params = {
+                "app_id": app_id,
+                "app_key": api_key,
+                "what": "data engineer",
+                "where": "New York City",
+                "results_per_page": 20,
+                "content-type": "application/json",
+            }
+
+            try:
+                resp = requests.get(url, params=params, timeout=30)
+                resp.raise_for_status()
+                page_results = resp.json().get("results", [])
+                if not page_results:
+                    break
+                all_results.extend(page_results)
+            except Exception as e:
+                self.logger.error(f"--XX-- Adzuna request failed on page {page}: {e}")
+                break
+
+        return all_results
 
     def insert_job(self, job: Dict[str, Any]):
         """Send job to FastAPI with dedupe protection."""
 
-        url = job.get("redirect_url")
+        url = job.get("redirect_url", "") or ""
+        fp = self.job_fingerprint(job)
 
         # -----------------------------------------
-        # HARD DEDUPE: Skip jobs we've already seen
+        # HARD DEDUPE: Skip jobs we've already seen via fingerprint
         # -----------------------------------------
-        if url and url in self.state["seen_job_urls"]:
-            self.logger.info(f"⏭️ Skipping already-seen job: {job.get('title')}")
+        if fp in self.state["seen_job_hashes"]:
+            self.logger.info(f">>-->> Skipping already-seen job (hash): {job.get('title')}")
             return
 
         payload = {
@@ -67,30 +97,32 @@ class JobFetcherAgent(BaseAgent):
             "company": job.get("company", {}).get("display_name", ""),
             "location": job.get("location", {}).get("display_name", ""),
             "description": job.get("description", "")[:4000],
-            "source_url": url or ""
+            "source_url": url,
         }
 
         resp = self.api_post("/jobs/", payload)
 
         if resp and resp.get("duplicate"):
-            self.logger.info(f"__ Duplicate skipped: {payload['title']}")
+            self.logger.info(f">>==>> Duplicate skipped (backend): {payload['title']}")
         elif resp:
-            self.logger.info(f">> Inserted job: {payload['title']}")
+            self.logger.info(f"--OK-- Inserted job: {payload['title']}")
         else:
-            self.logger.error("XX Failed to insert job into backend")
-
+            self.logger.error("--XX-- Failed to insert job into backend")
+            return
 
         # -----------------------------------------
         # Add to seen list after successful insert
         # -----------------------------------------
-        if url:
-            self.state["seen_job_urls"].append(url)
-            self._save_state()
+        self.state["seen_job_hashes"].append(fp)
 
-        self.logger.info(f"OK Inserted job: {payload['title']}")
+        # keep dedupe list from exploding
+        if len(self.state["seen_job_hashes"]) > 2000:
+            self.state["seen_job_hashes"] = self.state["seen_job_hashes"][-1000:]
+
+        self._save_state()
 
     def step(self):
-        self.logger.info("... Fetcher: checking Adzuna for new jobs...")
+        self.logger.info("===>>> JobFetcher: checking Adzuna for new jobs...")
         print("DEBUG:", os.getenv("ADZUNA_AI_ID"), os.getenv("ADZUNA_API_KEY"))
 
         jobs = self.fetch_adzuna_jobs()
@@ -101,7 +133,7 @@ class JobFetcherAgent(BaseAgent):
         for job in jobs:
             self.insert_job(job)
 
-        self.logger.info("<!> Fetch cycle complete.")
+        self.logger.info("--OK-- JobFetcher: fetch cycle complete.")
 
 
 # -----------------------------
@@ -113,10 +145,9 @@ if __name__ == "__main__":
     config = AgentConfig(
         backend_url=api_base,
         state_path="fetcher_state.json",
-        sleep_interval=3300 ,# 55 minutes 
+        sleep_interval=3300,  # 55 minutes
     )
 
     agent = JobFetcherAgent(config)
-    print("➡️ JobFetcherAgent starting...")
+    print("===>>> JobFetcherAgent starting...")
     agent.run()
-
