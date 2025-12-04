@@ -1,0 +1,497 @@
+{
+  "processed_jobs": {
+    "1": {
+      "score": 0.0,
+      "matches": []
+    },
+    "3": {
+      "score": 0.630714094850855,
+      "matches": [
+        {
+          "artifact_id": 133,
+          "name": "SWDCSYResume_Datadog2024.docx",
+          "similarity": 0.5359051546993944,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6359051546993943,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am dedicated to delivering innovative soluti...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1618,
+          "name": "SWDCSYResume_Datadog2024.docx",
+          "similarity": 0.5359051546993944,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6359051546993943,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am dedicated to delivering innovative soluti...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 28,
+          "name": "DarwhinGomez_CoverLetter_NYSIF2025PCL.docx",
+          "similarity": 0.5342820723568797,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6342820723568797,
+          "snippet": "Darwhin Gomez\n618 W 142 St, Apt 6A\nNew York, NY\nDarwhin88@gmail.com | Linkedin\nNovember 07, 2025\nVacancy ID: 201319\nDear Christopher Barr and Hiring Team,\nI am writing to apply for the Information Technology Specialist 2 (Programming) position at the New York State Department of Financial Services[NYC location]. I have strong foundation in software development, data systems, and cloud infrastructu...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 92,
+          "name": "DarwhinGomez_CoverLetter_NYSIF2025PCL.docx",
+          "similarity": 0.5342161377797209,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6342161377797209,
+          "snippet": "Darwhin Gomez\n618 W 142 St, Apt 6A\nNew York, NY\nDarwhin88@gmail.com | Linkedin\nNovember 07, 2025\nVacancy ID: 201319\nDear Christopher Barr and Hiring Team,\nI am writing to apply for the Information Technology Specialist 2 (Programming) position at the New York State Department of Financial Services[NYC location]. I have strong foundation in software development, data systems, and cloud infrastructu...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1575,
+          "name": "DarwhinGomez_CoverLetter_NYSIF2025PCL.docx",
+          "similarity": 0.5342161377797209,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6342161377797209,
+          "snippet": "Darwhin Gomez\n618 W 142 St, Apt 6A\nNew York, NY\nDarwhin88@gmail.com | Linkedin\nNovember 07, 2025\nVacancy ID: 201319\nDear Christopher Barr and Hiring Team,\nI am writing to apply for the Information Technology Specialist 2 (Programming) position at the New York State Department of Financial Services[NYC location]. I have strong foundation in software development, data systems, and cloud infrastructu...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1602,
+          "name": "Darwhin_Gomez_Resume_DataEngineer_AWS_Nov2025.docx",
+          "similarity": 0.5287762160995202,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6287762160995202,
+          "snippet": "DARWHIN GOMEZ\nNew York, New York | 347-491-2955\nDarwhin88@gmail.com | LinkedIn Profile | GitHub\nCERTIFICATIONS \u2013 \nAWS Certified Solutions Architect \u2013 Associate\nAWS Certified AI Practitioner \u2013 Generative AI\nGoogle Cybersecurity Certificate\nEDUCATION \nCity University of New York \u2013 School of Professional Studies\nMaster of Science- Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity Uni...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1601,
+          "name": "Darwhin_Gomez_Resume_AssociateSolutionsEngineer_SnowFlake_Nov2025.docx",
+          "similarity": 0.5282562498817279,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6282562498817279,
+          "snippet": "DARWHIN GOMEZ\nNew York, New York | 347-491-2955\nDarwhin88@gmail.com | LinkedIn Profile | GitHub\nCERTIFICATIONS \u2013 \nAWS Certified Solutions Architect \u2013 Associate\nAWS Certified AI Practitioner \u2013 Generative AI\nGoogle Cybersecurity Certificate\nEDUCATION \nCity University of New York \u2013 School of Professional Studies\nMaster of Science- Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity Uni...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1560,
+          "name": "DarwhinDS2024.docx",
+          "similarity": 0.5252585820468507,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6252585820468507,
+          "snippet": "DARWHIN GOMEZ\nBronx, New York, 10462, USA | 347-491-2955\nDarwhin88@gmail.com | Connect on LinkedIn\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern ...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 3,
+          "name": "DarwhinDS2024.docx",
+          "similarity": 0.5251626215826705,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6251626215826704,
+          "snippet": "DARWHIN GOMEZ\nBronx, New York, 10462, USA | 347-491-2955\nDarwhin88@gmail.com | Connect on LinkedIn\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern ...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 76,
+          "name": "DarwhinDS2024.docx",
+          "similarity": 0.5251626215826705,
+          "skill_overlap": 0.3333333333333333,
+          "combined_score": 0.6251626215826704,
+          "snippet": "DARWHIN GOMEZ\nBronx, New York, 10462, USA | 347-491-2955\nDarwhin88@gmail.com | Connect on LinkedIn\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern ...",
+          "source": "Auto"
+        }
+      ]
+    },
+    "4": {
+      "score": 0.4904992426481348,
+      "matches": [
+        {
+          "artifact_id": 17,
+          "name": "DarwhinDS2025linkedin.docx",
+          "similarity": 0.4659274359323813,
+          "skill_overlap": 0.2,
+          "combined_score": 0.5259274359323813,
+          "snippet": "DARWHIN GOMEZ\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern WOPLLI Technologies | Remote, New York\nJune 2024 \u2013 September 2024\nDesigned Virtual Cr...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1564,
+          "name": "DarwhinDS2025linkedin.docx",
+          "similarity": 0.4659274359323813,
+          "skill_overlap": 0.2,
+          "combined_score": 0.5259274359323813,
+          "snippet": "DARWHIN GOMEZ\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern WOPLLI Technologies | Remote, New York\nJune 2024 \u2013 September 2024\nDesigned Virtual Cr...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 80,
+          "name": "DarwhinDS2025linkedin.docx",
+          "similarity": 0.46572295035583156,
+          "skill_overlap": 0.2,
+          "combined_score": 0.5257229503558316,
+          "snippet": "DARWHIN GOMEZ\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern WOPLLI Technologies | Remote, New York\nJune 2024 \u2013 September 2024\nDesigned Virtual Cr...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1560,
+          "name": "DarwhinDS2024.docx",
+          "similarity": 0.4523514296380182,
+          "skill_overlap": 0.2,
+          "combined_score": 0.5123514296380183,
+          "snippet": "DARWHIN GOMEZ\nBronx, New York, 10462, USA | 347-491-2955\nDarwhin88@gmail.com | Connect on LinkedIn\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern ...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 3,
+          "name": "DarwhinDS2024.docx",
+          "similarity": 0.4522087304467728,
+          "skill_overlap": 0.2,
+          "combined_score": 0.5122087304467728,
+          "snippet": "DARWHIN GOMEZ\nBronx, New York, 10462, USA | 347-491-2955\nDarwhin88@gmail.com | Connect on LinkedIn\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern ...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 76,
+          "name": "DarwhinDS2024.docx",
+          "similarity": 0.4522087304467728,
+          "skill_overlap": 0.2,
+          "combined_score": 0.5122087304467728,
+          "snippet": "DARWHIN GOMEZ\nBronx, New York, 10462, USA | 347-491-2955\nDarwhin88@gmail.com | Connect on LinkedIn\nEducation \nCity University of New York\nMaster of Science in Data Science and Machine Learning, Expected Dec 2025\nCity University of New York\nBachelor of Technology in Computer Information Systems, GPA 3.78, Dec 2024\nAwards: Deans List 5X, National Honors Society \nExperience\nSoftware Developer Intern ...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1601,
+          "name": "Darwhin_Gomez_Resume_AssociateSolutionsEngineer_SnowFlake_Nov2025.docx",
+          "similarity": 0.448715275679201,
+          "skill_overlap": 0.0,
+          "combined_score": 0.448715275679201,
+          "snippet": "DARWHIN GOMEZ\nNew York, New York | 347-491-2955\nDarwhin88@gmail.com | LinkedIn Profile | GitHub\nCERTIFICATIONS \u2013 \nAWS Certified Solutions Architect \u2013 Associate\nAWS Certified AI Practitioner \u2013 Generative AI\nGoogle Cybersecurity Certificate\nEDUCATION \nCity University of New York \u2013 School of Professional Studies\nMaster of Science- Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity Uni...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1620,
+          "name": "SWDCSYResume_Palantir.docx",
+          "similarity": 0.44751758008986076,
+          "skill_overlap": 0.0,
+          "combined_score": 0.44751758008986076,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | Tel 929-305-7353 | @LinkedIn\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern position at Palantir. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am confident I can succeed in this role.  \nEDUCATION\nBach...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 135,
+          "name": "SWDCSYResume_Palantir.docx",
+          "similarity": 0.44751758008986076,
+          "skill_overlap": 0.0,
+          "combined_score": 0.44751758008986076,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | Tel 929-305-7353 | @LinkedIn\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern position at Palantir. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am confident I can succeed in this role.  \nEDUCATION\nBach...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1600,
+          "name": "Darwhin_Gomez_Resume_AssociateSolutionsEngineer_Nov2025.pdf",
+          "similarity": 0.4468952778702675,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4468952778702675,
+          "snippet": "DARWHIN GOMEZ  \nNew York, New York | 347 -491-2955  \nDarwhin88@gmail.com  | LinkedIn Profile  | GitHub  \n \nCERTIFICATIONS  \u2013  \nAWS Certified Solutions Architect \u2013 Associate  \nAWS Certified AI Practitioner \u2013 Generative AI  \nGoogle Cybersecurity Certificate  \n \nEDUCATION   \nCity University of New York \u2013 School of Professional Studies  \nMaster of Science - Data Science and Machine Learning, GPA 4.0, ...",
+          "source": "Auto"
+        }
+      ]
+    },
+    "5": {
+      "score": 0.37247031886942406,
+      "matches": [
+        {
+          "artifact_id": 1618,
+          "name": "SWDCSYResume_Datadog2024.docx",
+          "similarity": 0.3944136790057554,
+          "skill_overlap": 0.0,
+          "combined_score": 0.3944136790057554,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am dedicated to delivering innovative soluti...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 133,
+          "name": "SWDCSYResume_Datadog2024.docx",
+          "similarity": 0.3944136790057554,
+          "skill_overlap": 0.0,
+          "combined_score": 0.3944136790057554,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am dedicated to delivering innovative soluti...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 136,
+          "name": "SWDResume11_2023.docx",
+          "similarity": 0.379799977517128,
+          "skill_overlap": 0.0,
+          "combined_score": 0.379799977517128,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\n I am excited at the opportunity to join Deloitte's esteemed team as a Solution Analyst; Software Developer, I bring a strong foundation in Computer Science, database management, SQL optimization, and software development. I am committed to delivering innovative solutions and driving impactful projects forward while maintain...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1621,
+          "name": "SWDResume11_2023.docx",
+          "similarity": 0.379799977517128,
+          "skill_overlap": 0.0,
+          "combined_score": 0.379799977517128,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\n I am excited at the opportunity to join Deloitte's esteemed team as a Solution Analyst; Software Developer, I bring a strong foundation in Computer Science, database management, SQL optimization, and software development. I am committed to delivering innovative solutions and driving impactful projects forward while maintain...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 85,
+          "name": "DarwhinGomezFall2025.docx",
+          "similarity": 0.3632120759992781,
+          "skill_overlap": 0.0,
+          "combined_score": 0.3632120759992781,
+          "snippet": "Darwhin Gomez\nDarwhin88@gmail.com | (347) 491 2955 | LinkedIn Profile\nCertifications\nAWS Certified Solutions Architect \u2013 Associate \nAWS Certified AI Practitioner \u2013 Generative AI \nGoogle Cybersecurity Certificate \nAWS Certified Cloud Practitioner \nEducation\nCity University of New York \u2013 SPS\nM.S. Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity University of New York \u2013 City Tech\nB....",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 4,
+          "name": "DarwhinGomezFall2025.docx",
+          "similarity": 0.3631996512413128,
+          "skill_overlap": 0.0,
+          "combined_score": 0.3631996512413128,
+          "snippet": "Darwhin Gomez\nDarwhin88@gmail.com | (347) 491 2955 | LinkedIn Profile\nCertifications\nAWS Certified Solutions Architect \u2013 Associate \nAWS Certified AI Practitioner \u2013 Generative AI \nGoogle Cybersecurity Certificate \nAWS Certified Cloud Practitioner \nEducation\nCity University of New York \u2013 SPS\nM.S. Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity University of New York \u2013 City Tech\nB....",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1568,
+          "name": "DarwhinGomezFall2025.docx",
+          "similarity": 0.3631996512413128,
+          "skill_overlap": 0.0,
+          "combined_score": 0.3631996512413128,
+          "snippet": "Darwhin Gomez\nDarwhin88@gmail.com | (347) 491 2955 | LinkedIn Profile\nCertifications\nAWS Certified Solutions Architect \u2013 Associate \nAWS Certified AI Practitioner \u2013 Generative AI \nGoogle Cybersecurity Certificate \nAWS Certified Cloud Practitioner \nEducation\nCity University of New York \u2013 SPS\nM.S. Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity University of New York \u2013 City Tech\nB....",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1619,
+          "name": "SWDCSYResume_Datadog2024.pdf",
+          "similarity": 0.36302759426997255,
+          "skill_overlap": 0.0,
+          "combined_score": 0.36302759426997255,
+          "snippet": "DARWHIN GOMEZ  \nDARWHIN88@GMAIL.COM  | 929-305-7353  | LINKEDIN  \nNEW YORK CITY  \nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a \nrobust background in Computer Science, database management, SQL optimization, and software development, coupled \nwith a deep -seated pas sion for cybersecurity, I am dedicated to delivering innov...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 134,
+          "name": "SWDCSYResume_Datadog2024.pdf",
+          "similarity": 0.36290480869441666,
+          "skill_overlap": 0.0,
+          "combined_score": 0.36290480869441666,
+          "snippet": "DARWHIN GOMEZ  \nDARWHIN88@GMAIL.COM  | 929-305-7353  | LINKEDIN  \nNEW YORK CITY  \nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a \nrobust background in Computer Science, database management, SQL optimization, and software development, coupled \nwith a deep -seated pas sion for cybersecurity, I am dedicated to delivering innov...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1611,
+          "name": "Gomez_DarwhinDS2024.docx",
+          "similarity": 0.36073209420218066,
+          "skill_overlap": 0.0,
+          "combined_score": 0.36073209420218066,
+          "snippet": "DARWHIN GOMEZ\nDARWHIN88@GMAIL.COM | TEL 347-491-2955\nDARWHIN.GOMEZ@MAIL.CITYTECH.CUNY.EDU\n2055 SAINT RAYMOND AVE 1H, BRONX, NEW YORK 10462\nEDUCATION\nMaster of Science - Data Science and Machine Learning\nSchool of Professional Studies, The City University of New York, New York, NY\nExpected Graduation: Dec 2025\nSociety of Hispanic Professional Engineers\nBachelor of Technology - Computer and Informat...",
+          "source": "Auto"
+        }
+      ]
+    },
+    "6": {
+      "score": 0.44107739126881035,
+      "matches": [
+        {
+          "artifact_id": 106,
+          "name": "Darwhin_Gomez_CoverLetter_DTI_2024.docx",
+          "similarity": 0.44561668906311414,
+          "skill_overlap": 0.0,
+          "combined_score": 0.44561668906311414,
+          "snippet": "Dear Hiring Team\nAs a recent graduate with a Bachelor's degree in Computer systems, I am enthusiastic about applying for the Deutsche Bank Graduate Program - Technology, Data and Innovation (TDI) - New York 2025. I am confident that my diverse professional experience and commitment to technological innovation make me an ideal candidate for this role.\nMy professional journey is unique in that I hav...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 42,
+          "name": "Darwhin_Gomez_CoverLetter_DTI_2024.docx",
+          "similarity": 0.4455987811088593,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4455987811088593,
+          "snippet": "Dear Hiring Team\nAs a recent graduate with a Bachelor's degree in Computer systems, I am enthusiastic about applying for the Deutsche Bank Graduate Program - Technology, Data and Innovation (TDI) - New York 2025. I am confident that my diverse professional experience and commitment to technological innovation make me an ideal candidate for this role.\nMy professional journey is unique in that I hav...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1589,
+          "name": "Darwhin_Gomez_CoverLetter_DTI_2024.docx",
+          "similarity": 0.4455987811088593,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4455987811088593,
+          "snippet": "Dear Hiring Team\nAs a recent graduate with a Bachelor's degree in Computer systems, I am enthusiastic about applying for the Deutsche Bank Graduate Program - Technology, Data and Innovation (TDI) - New York 2025. I am confident that my diverse professional experience and commitment to technological innovation make me an ideal candidate for this role.\nMy professional journey is unique in that I hav...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 41,
+          "name": "Darwhin_Gomez_CoverLetter_DSI_11_JPM_2024.docx",
+          "similarity": 0.44059723615646673,
+          "skill_overlap": 0.0,
+          "combined_score": 0.44059723615646673,
+          "snippet": "Darwhin Gomez\nDarwhinGomez@mail.cityech.cuny.edu\n347 491 2955\n\nDear Hiring Team,\nI'm excited to apply for the Data Science Internship at JPMorgan Chase! With a focus on predictive analytics in my studies, I\u2019ve developed strong skills in statistical methods, programming, and forecasting, which I\u2019m eager to contribute to your team. I found this opportunity through the NY Jobs CEO Council, and it\u2019s i...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1588,
+          "name": "Darwhin_Gomez_CoverLetter_DSI_11_JPM_2024.docx",
+          "similarity": 0.44059723615646673,
+          "skill_overlap": 0.0,
+          "combined_score": 0.44059723615646673,
+          "snippet": "Darwhin Gomez\nDarwhinGomez@mail.cityech.cuny.edu\n347 491 2955\n\nDear Hiring Team,\nI'm excited to apply for the Data Science Internship at JPMorgan Chase! With a focus on predictive analytics in my studies, I\u2019ve developed strong skills in statistical methods, programming, and forecasting, which I\u2019m eager to contribute to your team. I found this opportunity through the NY Jobs CEO Council, and it\u2019s i...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 105,
+          "name": "Darwhin_Gomez_CoverLetter_DSI_11_JPM_2024.docx",
+          "similarity": 0.4405883060834056,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4405883060834056,
+          "snippet": "Darwhin Gomez\nDarwhinGomez@mail.cityech.cuny.edu\n347 491 2955\n\nDear Hiring Team,\nI'm excited to apply for the Data Science Internship at JPMorgan Chase! With a focus on predictive analytics in my studies, I\u2019ve developed strong skills in statistical methods, programming, and forecasting, which I\u2019m eager to contribute to your team. I found this opportunity through the NY Jobs CEO Council, and it\u2019s i...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1562,
+          "name": "DarwhinDS2025.docx",
+          "similarity": 0.4384877179701079,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4384877179701079,
+          "snippet": "DARWHIN GOMEZ \nNew York, New York | 347-491-2955 \nDarwhin88@gmail.com | Connect on LinkedIn | GitHub\nCertifications \nAWS Certified Solutions Architect \u2013 Associate, 2025-2028\t \nAWS Certified AI Practitioner \u2013 Generative AI, 2025-2028\nGoogle Cybersecurity Certificate, 2022 \u2013 No expiration\nEducation \nCity University of New York \u2013 School of Professional Studies \nM.S. Data Science and Machine Learning,...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1,
+          "name": "DarwhinDS2025.docx",
+          "similarity": 0.4384877179701079,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4384877179701079,
+          "snippet": "DARWHIN GOMEZ \nNew York, New York | 347-491-2955 \nDarwhin88@gmail.com | Connect on LinkedIn | GitHub\nCertifications \nAWS Certified Solutions Architect \u2013 Associate, 2025-2028\t \nAWS Certified AI Practitioner \u2013 Generative AI, 2025-2028\nGoogle Cybersecurity Certificate, 2022 \u2013 No expiration\nEducation \nCity University of New York \u2013 School of Professional Studies \nM.S. Data Science and Machine Learning,...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 78,
+          "name": "DarwhinDS2025.docx",
+          "similarity": 0.4384877179701079,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4384877179701079,
+          "snippet": "DARWHIN GOMEZ \nNew York, New York | 347-491-2955 \nDarwhin88@gmail.com | Connect on LinkedIn | GitHub\nCertifications \nAWS Certified Solutions Architect \u2013 Associate, 2025-2028\t \nAWS Certified AI Practitioner \u2013 Generative AI, 2025-2028\nGoogle Cybersecurity Certificate, 2022 \u2013 No expiration\nEducation \nCity University of New York \u2013 School of Professional Studies \nM.S. Data Science and Machine Learning,...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1601,
+          "name": "Darwhin_Gomez_Resume_AssociateSolutionsEngineer_SnowFlake_Nov2025.docx",
+          "similarity": 0.43671372910060813,
+          "skill_overlap": 0.0,
+          "combined_score": 0.43671372910060813,
+          "snippet": "DARWHIN GOMEZ\nNew York, New York | 347-491-2955\nDarwhin88@gmail.com | LinkedIn Profile | GitHub\nCERTIFICATIONS \u2013 \nAWS Certified Solutions Architect \u2013 Associate\nAWS Certified AI Practitioner \u2013 Generative AI\nGoogle Cybersecurity Certificate\nEDUCATION \nCity University of New York \u2013 School of Professional Studies\nMaster of Science- Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity Uni...",
+          "source": "Auto"
+        }
+      ]
+    },
+    "7": {
+      "score": 0.42037253121475116,
+      "matches": [
+        {
+          "artifact_id": 133,
+          "name": "SWDCSYResume_Datadog2024.docx",
+          "similarity": 0.42687434358512677,
+          "skill_overlap": 0.0,
+          "combined_score": 0.42687434358512677,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am dedicated to delivering innovative soluti...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1618,
+          "name": "SWDCSYResume_Datadog2024.docx",
+          "similarity": 0.42687434358512677,
+          "skill_overlap": 0.0,
+          "combined_score": 0.42687434358512677,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am dedicated to delivering innovative soluti...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 136,
+          "name": "SWDResume11_2023.docx",
+          "similarity": 0.42660128195301383,
+          "skill_overlap": 0.0,
+          "combined_score": 0.42660128195301383,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\n I am excited at the opportunity to join Deloitte's esteemed team as a Solution Analyst; Software Developer, I bring a strong foundation in Computer Science, database management, SQL optimization, and software development. I am committed to delivering innovative solutions and driving impactful projects forward while maintain...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1621,
+          "name": "SWDResume11_2023.docx",
+          "similarity": 0.42660128195301383,
+          "skill_overlap": 0.0,
+          "combined_score": 0.42660128195301383,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\n I am excited at the opportunity to join Deloitte's esteemed team as a Solution Analyst; Software Developer, I bring a strong foundation in Computer Science, database management, SQL optimization, and software development. I am committed to delivering innovative solutions and driving impactful projects forward while maintain...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 98,
+          "name": "DarwhinGResume2023fd.docx",
+          "similarity": 0.418383628129971,
+          "skill_overlap": 0.0,
+          "combined_score": 0.418383628129971,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com\nI am a driven and motivated learner in Computer Systems and Technology, with an emphasis in software engineering I am eager to apply my knowledge and skills to a challenging and rewarding position at Fanduel. With a passion for programming, Information Technology, and Gaming, as well as experience in IT instruction and customer service, I am confident in my abilit...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1581,
+          "name": "DarwhinGResume2023fd.docx",
+          "similarity": 0.4183663032491598,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4183663032491598,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com\nI am a driven and motivated learner in Computer Systems and Technology, with an emphasis in software engineering I am eager to apply my knowledge and skills to a challenging and rewarding position at Fanduel. With a passion for programming, Information Technology, and Gaming, as well as experience in IT instruction and customer service, I am confident in my abilit...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 34,
+          "name": "DarwhinGResume2023fd.docx",
+          "similarity": 0.4183663032491598,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4183663032491598,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com\nI am a driven and motivated learner in Computer Systems and Technology, with an emphasis in software engineering I am eager to apply my knowledge and skills to a challenging and rewarding position at Fanduel. With a passion for programming, Information Technology, and Gaming, as well as experience in IT instruction and customer service, I am confident in my abilit...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1602,
+          "name": "Darwhin_Gomez_Resume_DataEngineer_AWS_Nov2025.docx",
+          "similarity": 0.4143076087786459,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4143076087786459,
+          "snippet": "DARWHIN GOMEZ\nNew York, New York | 347-491-2955\nDarwhin88@gmail.com | LinkedIn Profile | GitHub\nCERTIFICATIONS \u2013 \nAWS Certified Solutions Architect \u2013 Associate\nAWS Certified AI Practitioner \u2013 Generative AI\nGoogle Cybersecurity Certificate\nEDUCATION \nCity University of New York \u2013 School of Professional Studies\nMaster of Science- Data Science and Machine Learning, GPA 4.0, Expected Jan 2026\nCity Uni...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 37,
+          "name": "Darwhin_Gomez_ MastersDS.docx",
+          "similarity": 0.41367510883214687,
+          "skill_overlap": 0.0,
+          "combined_score": 0.41367510883214687,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | Tel 347-491-2955 \n2055 Saint Raymond Ave 1h\nBronx. New York 10462\nEDUCATION\nMaster of Science- Data Science and Machine Learning,\t 2024-2025\nSchool of Professional Studies, The City University of New York - New York, NY \nSociety of Hispanic Professional Engineers\nBachelor of Technology: Computer and Information Systems, GPA 3.78   2024\nNew York City College of T...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 38,
+          "name": "Darwhin_Gomez_ MastersDTI.docx",
+          "similarity": 0.41367510883214687,
+          "skill_overlap": 0.0,
+          "combined_score": 0.41367510883214687,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | Tel 347-491-2955 \n2055 Saint Raymond Ave 1h\nBronx. New York 10462\nEDUCATION\nMaster of Science- Data Science and Machine Learning,\t 2024-2025\nSchool of Professional Studies, The City University of New York - New York, NY \nSociety of Hispanic Professional Engineers\nBachelor of Technology: Computer and Information Systems, GPA 3.78   2024\nNew York City College of T...",
+          "source": "Auto"
+        }
+      ]
+    }
+  },
+  "queued_jobs": {},
+  "skipped_jobs": {
+    "3": {
+      "score": 0.630714094850855,
+      "title": "Data Engineer",
+      "company": "DL Software Inc."
+    },
+    "4": {
+      "score": 0.4904992426481348,
+      "title": "Data Engineer",
+      "company": "PixelPlex"
+    }
+  },
+  "processed_signatures": {}
+}

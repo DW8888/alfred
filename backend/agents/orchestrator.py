@@ -107,16 +107,16 @@ class Orchestrator:
     # ------------------------------------------------------------------
     def run_agent_once(self, name: str, agent_obj):
         try:
-            print(f"===>>> Running {name}.step()")
+            # print(f"===>>> Running {name}.step()")
             agent_obj.step()
-            print(f"--OK-- {name} completed")
+                # print(f"--OK-- {name} completed")
         except Exception as e:
-            print(f"--XX-- Agent {name} crashed: {e}")
+                # print(f"--XX-- Agent {name} crashed: {e}")
             traceback.print_exc()
 
     # ------------------------------------------------------------------
     def start(self):
-        print("===>>> Alfred Orchestrator started")
+        # print("===>>> Alfred Orchestrator started")
 
         while True:
             now = time.time()

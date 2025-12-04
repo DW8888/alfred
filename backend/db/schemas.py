@@ -12,7 +12,7 @@ class JobBase(BaseModel):
     company: Optional[str] = None
     location: Optional[str] = None
     description: Optional[str] = None
-    source_url: Optional[str] = None
+    source_url: str
 
 # ------------------------------------------------------
 # Schema for creating a job (incoming POST)

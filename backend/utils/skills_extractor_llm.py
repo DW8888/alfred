@@ -134,15 +134,15 @@ def extract_skills_llm(text: str) -> Dict[str, List[str]]:
 
         cleaned = _build_all_union(raw)
 
-        # Debug hook 
-        print("\n================ DEBUG: RAW LLM SKILLS (NORMALIZED) ================\n")
-        print(json.dumps(cleaned, indent=2))
-        print("\n=================================================================\n")
+        # Debug hook
+        # print("\n================ DEBUG: RAW LLM SKILLS (NORMALIZED) ================\n")
+        # print(json.dumps(cleaned, indent=2))
+        # print("\n=================================================================\n")
 
         return cleaned
 
     except Exception as e:
-        print("!!! extract_skills_llm FAILED !!!", repr(e))
+        # print("!!! extract_skills_llm FAILED !!!", repr(e))
         return {
             "languages": [],
             "cloud": [],

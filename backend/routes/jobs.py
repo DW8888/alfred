@@ -150,9 +150,9 @@ def match_job(req: JobMatchRequest) -> Dict[str, Any]:
     job_sk = extract_skills_llm(full_text)
     job_set = _skills_to_set(job_sk)
 
-    print("\n================ DEBUG: LLM EXTRACTED JOB SKILLS ================\n")
-    print(json.dumps(job_sk, indent=2))
-    print("=================================================================\n")
+    # print("\n================ DEBUG: LLM EXTRACTED JOB SKILLS ================\n")
+    # print(json.dumps(job_sk, indent=2))
+    # print("=================================================================\n")
 
     enriched_matches = []
 
@@ -163,9 +163,9 @@ def match_job(req: JobMatchRequest) -> Dict[str, Any]:
         art_sk = extract_skills_llm(art_content)
         art_set = _skills_to_set(art_sk)
 
-        print("\n================ DEBUG: RAW LLM ARTIFACT SKILLS ================\n")
-        print(json.dumps(art_sk, indent=2))
-        print("=================================================================\n")
+        # print("\n================ DEBUG: RAW LLM ARTIFACT SKILLS ================\n")
+        # print(json.dumps(art_sk, indent=2))
+        # print("=================================================================\n")
 
         # 5. Compute skill overlap using precision on job skills
         if job_set:
@@ -192,16 +192,16 @@ def match_job(req: JobMatchRequest) -> Dict[str, Any]:
         )
 
         # Verbose skill debug
-        print("\n================ SKILL DEBUG ================\n")
-        print(f"Artifact: {art.name}")
-        print(f"Similarity: {semantic:.4f}")
-        print(f"Job Skills: {job_set}")
-        print(f"Artifact Skills: {art_set}")
-        print(f"Intersection: {inter}")
-        print(f"Union: {union}")
-        print(f"Skill Overlap Score: {sk_overlap:.4f}")
-        print(f"Combined Score: {combined:.4f}")
-        print("=============================================\n")
+        # print("\n================ SKILL DEBUG ================\n")
+        # print(f"Artifact: {art.name}")
+        # print(f"Similarity: {semantic:.4f}")
+        # print(f"Job Skills: {job_set}")
+        # print(f"Artifact Skills: {art_set}")
+        # print(f"Intersection: {inter}")
+        # print(f"Union: {union}")
+        # print(f"Skill Overlap Score: {sk_overlap:.4f}")
+        # print(f"Combined Score: {combined:.4f}")
+        # print("=============================================\n")
 
         enriched_matches.append({
             "artifact_id": art.id,

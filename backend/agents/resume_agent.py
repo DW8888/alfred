@@ -162,6 +162,7 @@ class ResumeAgent(BaseAgent):
 
             # Save full text into GeneratedArtifact
             ga = GeneratedArtifact(
+                job_id=job_id,
                 job_title=title,
                 company=company,
                 artifact_type="resume",
@@ -224,5 +225,5 @@ if __name__ == "__main__":
     )
 
     agent = ResumeAgent(config)
-    print("===>>> ResumeAgent starting...")
+    # print("===>>> ResumeAgent starting...")
     agent.run()

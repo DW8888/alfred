@@ -1,11 +1,14 @@
 # backend/agents/job_fetcher.py
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
 import hashlib
 import requests
+import re
+from html import unescape
 from typing import List, Dict, Optional, Any
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from .base import BaseAgent, AgentConfig
 
@@ -17,7 +20,10 @@ class JobFetcherAgent(BaseAgent):
     """
 
     BASE_URL = "https://api.adzuna.com/v1/api/jobs/us/search"
-    MAX_PAGES = 3  # fetch first 3 pages -> up to ~60 jobs
+    DEFAULT_QUERY = "data engineer"
+    DEFAULT_LOCATION = "New York City"
+    DEFAULT_RESULTS_PER_PAGE = 20
+    DEFAULT_MAX_PAGES = 3  # fetch first 3 pages -> up to ~60 jobs
 
     def __init__(self, config: AgentConfig):
         super().__init__("JobFetcher", config)
@@ -25,8 +31,14 @@ class JobFetcherAgent(BaseAgent):
         # -----------------------------------------
         # DEDUPE: track fingerprints we've already submitted
         # -----------------------------------------
-        if "seen_job_hashes" not in self.state:
-            self.state["seen_job_hashes"] = []
+        self.state.setdefault("seen_job_hashes", [])
+        fetch_config = self.state.setdefault("fetch_config", {})
+
+        # Runtime configuration (overridable via .env or persisted state)
+        self.query = fetch_config.get("query") or os.getenv("JOB_FETCHER_QUERY", self.DEFAULT_QUERY)
+        self.location = fetch_config.get("location") or os.getenv("JOB_FETCHER_LOCATION", self.DEFAULT_LOCATION)
+        self.results_per_page = int(fetch_config.get("results_per_page") or os.getenv("JOB_FETCHER_RESULTS_PER_PAGE", self.DEFAULT_RESULTS_PER_PAGE))
+        self.max_pages = int(fetch_config.get("max_pages") or os.getenv("JOB_FETCHER_MAX_PAGES", self.DEFAULT_MAX_PAGES))
 
     # -----------------------------------------
     # Helper: job fingerprint
@@ -54,15 +66,15 @@ class JobFetcherAgent(BaseAgent):
 
         all_results: List[Dict[str, Any]] = []
 
-        for page in range(1, self.MAX_PAGES + 1):
+        for page in range(1, self.max_pages + 1):
             url = f"{self.BASE_URL}/{page}"
 
             params = {
                 "app_id": app_id,
                 "app_key": api_key,
-                "what": "data engineer",
-                "where": "New York City",
-                "results_per_page": 20,
+                "what": self.query,
+                "where": self.location,
+                "results_per_page": self.results_per_page,
                 "content-type": "application/json",
             }
 
@@ -92,11 +104,13 @@ class JobFetcherAgent(BaseAgent):
             self.logger.info(f">>-->> Skipping already-seen job (hash): {job.get('title')}")
             return
 
+        description = self._hydrate_description(job)
+
         payload = {
             "title": job.get("title", "Unknown Title"),
             "company": job.get("company", {}).get("display_name", ""),
             "location": job.get("location", {}).get("display_name", ""),
-            "description": job.get("description", "")[:4000],
+            "description": description,
             "source_url": url,
         }
 
@@ -123,7 +137,7 @@ class JobFetcherAgent(BaseAgent):
 
     def step(self):
         self.logger.info("===>>> JobFetcher: checking Adzuna for new jobs...")
-        print("DEBUG:", os.getenv("ADZUNA_AI_ID"), os.getenv("ADZUNA_API_KEY"))
+        # print("DEBUG:", os.getenv("ADZUNA_AI_ID"), os.getenv("ADZUNA_API_KEY"))
 
         jobs = self.fetch_adzuna_jobs()
         if not jobs:
@@ -134,6 +148,46 @@ class JobFetcherAgent(BaseAgent):
             self.insert_job(job)
 
         self.logger.info("--OK-- JobFetcher: fetch cycle complete.")
+
+    # -----------------------------------------
+    # Helpers: description hydration
+    # -----------------------------------------
+    def _hydrate_description(self, job: Dict[str, Any]) -> str:
+        base_desc = job.get("description", "") or ""
+        url = job.get("redirect_url")
+        if not url:
+            return base_desc
+
+        try:
+            resp = requests.get(
+                url,
+                timeout=20,
+                headers={"User-Agent": "Mozilla/5.0 (compatible; AlfredJobFetcher/1.0)"},
+            )
+            resp.raise_for_status()
+        except Exception as e:
+            self.logger.debug(f"Failed to fetch full description ({url}): {e}")
+            return base_desc
+
+        enriched = self._extract_text(resp.text)
+        if len(enriched) > len(base_desc):
+            return enriched[:20000]  # safety cap
+        return base_desc
+
+    def _extract_text(self, html: str) -> str:
+        if not html:
+            return ""
+
+        # Focus on Adzuna job body when available
+        match = re.search(r'<section class="adp-body.*?">(.*?)</section>', html, re.S | re.I)
+        if match:
+            html = match.group(1)
+
+        html = re.sub(r"(?is)<(script|style).*?>.*?</\\1>", " ", html)
+        html = re.sub(r"(?s)<.*?>", " ", html)
+        text = unescape(html)
+        text = re.sub(r"\s+", " ", text)
+        return text.strip()
 
 
 # -----------------------------
@@ -149,5 +203,5 @@ if __name__ == "__main__":
     )
 
     agent = JobFetcherAgent(config)
-    print("===>>> JobFetcherAgent starting...")
+    # print("===>>> JobFetcherAgent starting...")
     agent.run()

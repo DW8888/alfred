@@ -162,6 +162,7 @@ class CoverLetterAgent(BaseAgent):
 
             # 2) GeneratedArtifact: store full text
             ga = GeneratedArtifact(
+                job_id=job_id,
                 job_title=title,
                 company=company,
                 artifact_type="cover_letter",
@@ -206,5 +207,5 @@ if __name__ == "__main__":
     )
 
     agent = CoverLetterAgent(config)
-    print("===>>> CoverLetterAgent starting...")
+    # print("===>>> CoverLetterAgent starting...")
     agent.run()
