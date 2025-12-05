@@ -1,0 +1,99 @@
+{
+  "personal_info": {
+    "name": "Darwhin Gomez",
+    "location": "New York, NY",
+    "email": "darwhin88@gmail.com",
+    "phone": "1 3474912955",
+    "links": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/darwhin-gomez/" },
+      { "label": "GitHub", "url": "https://github.com/dw8888" }]
+  },
+  "summary": "Data and Software Engineer with 2 years of experience in designing,developing, and maintaining data pipelines and software applications, and implemnting AI and Machine Learning applications. Proficient in SQL, Python, AWS, and data warehousing solutions. Adept at collaborating with cross-functional teams to deliver high-quality solutions that drive business insights and efficiency.",
+  "core_skills": [
+    "SQL",
+    "Python",
+    "AWS",
+    "Data Warehousing",
+    "ETL/ELT",
+    "Data Modeling",
+    "rest API",
+    "swagger",
+    "Postman",
+    "NoSQL",
+    "MongoDB",
+    "DynamoDB",
+    "Docker",
+    "Git",
+    "Agile/Scrum",
+    "software development life cycle (SDLC)",
+    "data analysis",
+    "data visualization",
+    "R programming",
+    "statistical analysis",
+    "machine learning",
+    "LLM integration",
+    "Natural Language Processing NLP",
+    "Object-Oriented Programming (OOP)",
+    "Microservices Architecture",
+    "knowledge of front-end technologies",
+    "CI/CD pipelines",
+    "json",
+    "Java",
+    "mathplotlib",
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "TensorFlow"
+ 
+
+
+
+
+  ],
+  "experience": [
+    {
+      "title": "Solutions Architect and AI Engineer",
+      "company": "Amazon Web Services (AWS)",
+      "location": "Arlignton, VA",
+      "dates": "June 2025 - September 2025",
+      "highlights": [
+        "Bullet point achievement",
+        "Include metrics where possible"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Degree/Program",
+      "institution": "School Name",
+      "dates": "Year or range",
+      "honors": [
+        "Optional honors or GPA"
+      ]
+    }
+  ],
+  "certifications": [
+    ""
+  ],
+  "projects": [
+    {
+      "name": "Project Name",
+      "description": "Short description",
+      "tech": ["Tech stack items"],
+      "highlights": [
+        "Achievement / measurable outcome #1",
+        "Achievement / measurable outcome #2"
+      ]
+    }
+  ],
+  "extras": {
+    "languages": ["English", "Spanish"],
+    "volunteering": [
+      {
+        "organization": "Org name",
+        "role": "Role",
+        "summary": "Brief description"
+      }
+    ]
+  }
+}

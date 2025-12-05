@@ -21006,6 +21006,101 @@
           "source": "Auto"
         }
       ]
+    },
+    "211": {
+      "score": 0.43290317582247384,
+      "matches": [
+        {
+          "artifact_id": 1670,
+          "name": "Darwhin_Gomez_Resume_AssociateSolutionsEngineer_Nov2025.pdf",
+          "similarity": 0.48088518126872004,
+          "skill_overlap": 0.0,
+          "combined_score": 0.48088518126872004,
+          "snippet": "DARWHIN GOMEZ  \nNew York, New York | 347 -491-2955  \nDarwhin88@gmail.com  | LinkedIn Profile  | GitHub  \n \nCERTIFICATIONS  \u2013  \nAWS Certified Solutions Architect \u2013 Associate  \nAWS Certified AI Practitioner \u2013 Generative AI  \nGoogle Cybersecurity Certificate  \n \nEDUCATION   \nCity University of New York \u2013 School of Professional Studies  \nMaster of Science - Data Science and Machine Learning, GPA 4.0, ...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1656,
+          "name": "Darwhin GomezAmexCL.docx",
+          "similarity": 0.4574672953842954,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4574672953842954,
+          "snippet": "Darwhin Gomez\nSeptember 27,2024\nDarwhin88@gmail.com | 347 491 2955\n\nDear Hiring Manager,\nI am excited to apply for the Data Science in Finance intern position at American Express. With my background in software development and data science, I believe I can bring a unique perspective and valuable skills to your team.\nDuring my time as a Software Developer Intern at WOPLLI Technologies, I focused on...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1679,
+          "name": "SWDCSYResume_Datadog2024.docx",
+          "similarity": 0.44737763859696456,
+          "skill_overlap": 0.0,
+          "combined_score": 0.44737763859696456,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am dedicated to delivering innovative soluti...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1681,
+          "name": "SWDCSYResume_Palantir.docx",
+          "similarity": 0.43478832814902235,
+          "skill_overlap": 0.0,
+          "combined_score": 0.43478832814902235,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | Tel 929-305-7353 | @LinkedIn\nNew York City\nI am thrilled at the prospect of applying for the Software Engineer Intern position at Palantir. With a robust background in Computer Science, database management, SQL optimization, and software development, coupled with a deep-seated passion for cybersecurity, I am confident I can succeed in this role.  \nEDUCATION\nBach...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1682,
+          "name": "SWDResume11_2023.docx",
+          "similarity": 0.42274696555769853,
+          "skill_overlap": 0.0,
+          "combined_score": 0.42274696555769853,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com | 929-305-7353 | Linkedin\nNew York City\n I am excited at the opportunity to join Deloitte's esteemed team as a Solution Analyst; Software Developer, I bring a strong foundation in Computer Science, database management, SQL optimization, and software development. I am committed to delivering innovative solutions and driving impactful projects forward while maintain...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1680,
+          "name": "SWDCSYResume_Datadog2024.pdf",
+          "similarity": 0.4214551291247979,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4214551291247979,
+          "snippet": "DARWHIN GOMEZ  \nDARWHIN88@GMAIL.COM  | 929-305-7353  | LINKEDIN  \nNEW YORK CITY  \nI am thrilled at the prospect of applying for the Software Engineer Intern, Security Research position at Datadog. With a \nrobust background in Computer Science, database management, SQL optimization, and software development, coupled \nwith a deep -seated pas sion for cybersecurity, I am dedicated to delivering innov...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1675,
+          "name": "NYSCloud2025CL.docx",
+          "similarity": 0.42057163470129555,
+          "skill_overlap": 0.0,
+          "combined_score": 0.42057163470129555,
+          "snippet": "Darwhin Gomez\n618 W 142 St, Apt 6A\nNew York, NY\nDarwhin88@gmail.com | Linkedin\nNovember 07, 2025\nVacancy ID: 201319\nDear Hiring Committee,\nI am writing to apply for the Technology Analyst 2 (Cloud Solutions) [Vacancy ID: 201319] position with the New York State Office of Information Technology Services. I bring hands-on experience designing secure and scalable cloud systems through my internship a...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1660,
+          "name": "DarwhinGomez_CoverLetter_NYSIF2025PCL.docx",
+          "similarity": 0.4194527739449525,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4194527739449525,
+          "snippet": "Darwhin Gomez\n618 W 142 St, Apt 6A\nNew York, NY\nDarwhin88@gmail.com | Linkedin\nNovember 07, 2025\nVacancy ID: 201319\nDear Christopher Barr and Hiring Team,\nI am writing to apply for the Information Technology Specialist 2 (Programming) position at the New York State Department of Financial Services[NYC location]. I have strong foundation in software development, data systems, and cloud infrastructu...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1674,
+          "name": "MontefioreCLAA.docx",
+          "similarity": 0.4134461756513679,
+          "skill_overlap": 0.0,
+          "combined_score": 0.4134461756513679,
+          "snippet": "July 31, 2024\n\nDear Hiring Manager,\nI am excited to express my interest in the Application Analyst position at Montefiore Einstein. With a strong work ethic, a commitment to overcoming challenges, and a diverse set of technical skills, I am eager to contribute to Montefiore Einstein\u2019s esteemed team.\nI recently graduated Magna Cum Laude with a bachelor\u2019s degree in information systems and software d...",
+          "source": "Auto"
+        },
+        {
+          "artifact_id": 1665,
+          "name": "DarwhinGResume2023fd.docx",
+          "similarity": 0.410840635845624,
+          "skill_overlap": 0.0,
+          "combined_score": 0.410840635845624,
+          "snippet": "Darwhin Gomez\nDarwhin88@Gmail.com\nI am a driven and motivated learner in Computer Systems and Technology, with an emphasis in software engineering I am eager to apply my knowledge and skills to a challenging and rewarding position at Fanduel. With a passion for programming, Information Technology, and Gaming, as well as experience in IT instruction and customer service, I am confident in my abilit...",
+          "source": "Auto"
+        }
+      ]
     }
   },
   "queued_jobs": {
@@ -21060,6 +21155,11 @@
       "score": 0.4902005993124563,
       "title": "Data Engineer",
       "company": "PixelPlex"
+    },
+    "211": {
+      "score": 0.43290317582247384,
+      "title": "Data Engineer / Senior Data Engineer (AI/ML)",
+      "company": "Applied Systems Inc"
     }
   },
   "processed_signatures": {}

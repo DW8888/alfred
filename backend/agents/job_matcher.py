@@ -1,5 +1,7 @@
 # backend/agents/job_matcher.py
-import hashlib
+import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 from typing import List, Dict, Any, Optional, Tuple
 
 from backend.queue.simple_queue import SimpleQueue
@@ -24,6 +26,7 @@ class JobMatcherAgent(BaseAgent):
 
     MATCH_THRESHOLD = 0.6  # tightened to require stronger matches
     MIN_DESC_LEN = 80       # ignore ultra-short / broken job posts
+    DEFAULT_MAX_WORKERS = 4
     SKIP_POSTINGS: Tuple[Tuple[str, str], ...] = (
         ("data engineer / senior data engineer (ai/ml)", "applied systems inc"),
         ("data engineer / senior data engineer (gcp, bigquery)", "applied systems inc"),
@@ -38,6 +41,12 @@ class JobMatcherAgent(BaseAgent):
         self.state.setdefault("queued_jobs", {})
         self.state.setdefault("skipped_jobs", {})
         self.state.setdefault("processed_signatures", {})
+
+        self._state_lock = Lock()
+        self.max_workers = max(
+            1,
+            int(os.getenv("JOB_MATCHER_WORKERS", self.DEFAULT_MAX_WORKERS)),
+        )
 
         # Queue used to send work to ResumeAgent
         self.resume_queue = SimpleQueue("resume_queue.json")
@@ -91,6 +100,76 @@ class JobMatcherAgent(BaseAgent):
 
         return sum(scores) / len(scores)
 
+    def _mark_processed_short_desc(self, job_id: int):
+        with self._state_lock:
+            self.state["processed_jobs"][str(job_id)] = {
+                "score": 0.0,
+                "matches": [],
+            }
+            self._save_state()
+
+    def _record_processed(self, job_id: int, score: float, matches: List[Dict[str, Any]]):
+        with self._state_lock:
+            self.state["processed_jobs"][str(job_id)] = {
+                "score": score,
+                "matches": matches,
+            }
+            self._save_state()
+
+    def _record_queue_entry(self, job_id: int, score: float, title: str, company: str):
+        with self._state_lock:
+            self.state["queued_jobs"][str(job_id)] = {
+                "score": score,
+                "title": title,
+                "company": company,
+            }
+            self._save_state()
+
+    def _record_skip(self, job_id: int, score: float, title: str, company: str):
+        with self._state_lock:
+            self.state["skipped_jobs"][str(job_id)] = {
+                "score": score,
+                "title": title,
+                "company": company,
+            }
+            self._save_state()
+
+    def _process_single_job(self, job: Dict[str, Any]) -> None:
+        job_id = job.get("id")
+        title = job.get("title", "Unknown")
+        company = job.get("company", "") or ""
+
+        self.logger.info(f"===>>> Matching job {job_id}: {title}")
+
+        results = self.match_job(job)
+        if results is None:
+            self.logger.error(f"--XX-- /jobs/match failed for job {job_id}")
+            return
+
+        score = self.evaluate_match_strength(results)
+        self.logger.info(f"===>>> Hybrid score for job {job_id}: {score:.4f}")
+
+        self._record_processed(job_id, score, results.get("matches", []))
+
+        if self.should_skip_posting(title, company):
+            self.logger.info(
+                f"--XX-- Skipping job {job_id} ({title} @ {company}) per skip list"
+            )
+            self._record_skip(job_id, score, title, company)
+            return
+
+        if score >= self.MATCH_THRESHOLD and not self.has_been_queued(job_id):
+            self.logger.info(
+                f"--OK-- Strong match detected (score={score:.4f}) for job {job_id}"
+            )
+
+            self.resume_queue.push({
+                "job_id": job_id,
+                "title": title,
+                "score": score,
+            })
+            self._record_queue_entry(job_id, score, title, company)
+
     # ----------------------------------------------------------
     # Main Step
     # ----------------------------------------------------------
@@ -114,13 +193,13 @@ class JobMatcherAgent(BaseAgent):
         for stale in queued_ids - existing_id_strs:
             del self.state["queued_jobs"][stale]
 
+        candidates: List[Dict[str, Any]] = []
+
         for job in jobs:
             job_id = job.get("id")
             if job_id is None:
                 continue
 
-            title = job.get("title", "Unknown")
-            company = job.get("company", "") or ""
             desc = job.get("description", "") or ""
 
             # Already processed?
@@ -130,65 +209,29 @@ class JobMatcherAgent(BaseAgent):
             # Skip garbage posts
             if len(desc) < self.MIN_DESC_LEN:
                 self.logger.info(f"--XX-- Skipping job {job_id} (description too short)")
-                self.state["processed_jobs"][str(job_id)] = {
-                    "score": 0.0,
-                    "matches": [],
-                }
-                self._save_state()
+                self._mark_processed_short_desc(job_id)
                 continue
 
-            self.logger.info(f"===>>> Matching job {job_id}: {title}")
+            candidates.append(job)
 
-            results = self.match_job(job)
-            if results is None:
-                self.logger.error(f"--XX-- /jobs/match failed for job {job_id}")
-                continue
+        if not candidates:
+            self.logger.info("--OK-- No new jobs to process.")
+            return
 
-            score = self.evaluate_match_strength(results)
-            self.logger.info(f"===>>> Hybrid score for job {job_id}: {score:.4f}")
+        self.logger.info(
+            f"-->> Dispatching {len(candidates)} jobs across {self.max_workers} workers."
+        )
 
-            # Save processed record
-            self.state["processed_jobs"][str(job_id)] = {
-                "score": score,
-                "matches": results.get("matches", []),
-            }
-            self._save_state()
-
-            # ----------------------------------------------------------
-            # Strong Match ƒ+' push to resume queue
-            # ----------------------------------------------------------
-            if self.should_skip_posting(title, company):
-                self.logger.info(
-                    f"--XX-- Skipping job {job_id} ({title} @ {company}) per skip list"
-                )
-                self.state["skipped_jobs"][str(job_id)] = {
-                    "score": score,
-                    "title": title,
-                    "company": company,
-                }
-                self._save_state()
-                continue
-
-            if self.has_been_queued(job_id):
-                self.logger.info(f"--XX-- Job {job_id} already queued; skipping duplicate enqueue")
-                continue
-
-            if score >= self.MATCH_THRESHOLD:
-                self.logger.info(
-                    f"--OK-- Strong match detected (score={score:.4f}) for job {job_id}"
-                )
-
-                self.resume_queue.push({
-                    "job_id": job_id,
-                    "title": title,
-                    "score": score,
-                })
-                self.state["queued_jobs"][str(job_id)] = {
-                    "score": score,
-                    "title": title,
-                    "company": company,
-                }
-                self._save_state()
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            futures = [
+                executor.submit(self._process_single_job, job)
+                for job in candidates
+            ]
+            for future in as_completed(futures):
+                try:
+                    future.result()
+                except Exception as exc:
+                    self.logger.error(f"--XX-- Worker crashed: {exc}")
 
         self.logger.info("--OK-- JobMatcher step complete.")
 

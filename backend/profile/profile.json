@@ -1,0 +1,173 @@
+{
+  "personal_info": {
+    "name": "Darwhin Gomez",
+    "location": "New York, New York",
+    "email": "Darwhin88@gmail.com",
+    "phone": "347-491-2955",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/darwhin"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/dw8888"
+      }
+    ]
+  },
+  "summary": "Solutions-focused technologist with experience designing AWS architectures, automated data pipelines, and agentic AI tooling that shortens feedback loops and accelerates application throughput.",
+  "core_skills": [
+    "Python (pandas, scikit-learn, seaborn, PyTorch)",
+    "SQL / NoSQL",
+    "AWS (EC2, S3, Lambda, RDS, DynamoDB, Glue, QuickSight, Bedrock, Macie, SageMaker)",
+    "Azure (App Service, Functions, Storage)",
+    "ETL/ELT (Glue, SSIS) & Data Modeling",
+    "Generative AI (LLMs, prompt structuring, fine-tuning, guardrails)",
+    "Data Visualization (QuickSight, Power BI)",
+    "Security (SIEM, IDS, Active Directory, Linux)",
+    "Automation & CI/CD",
+    "R Programming",
+    "Statistical Analysis & Machine Learning",
+    "APIs (REST, FastAPI, Postman, Swagger)",
+    "Containerization (Docker)",
+    "Version Control (Git)",
+    "Agile/Scrum Methodologies",
+    "Software Development Life Cycle (SDLC)",
+    "Microservices Architecture",
+    "Object-Oriented Programming (OOP)",
+    "Database",
+    "Postgre",
+    "Oracle",
+    "MySQL",
+    "MongoDB",
+    "DynamoDB",
+    "Algorithms",
+    "Data Structures",
+    "Clusering Algorithms",
+    "Regression Analysis",
+    "Classification Techniques",
+    "Random Forests",
+    "Neural Networks "
+  ],
+  "experience": [
+    {
+      "title": "Solutions Architect Intern",
+      "company": "Amazon Web Services (AWS)",
+      "location": "Arlington, VA (Remote/Hybrid)",
+      "dates": "Jun 2025 \u2013 Sep 2025",
+      "highlights": [
+        "Designed and presented secure, scalable AWS reference architectures for enterprise customers.",
+        "Built POCs combining Bedrock LLMs with Athena/Glue/Lambda analytics to deliver actionable sentiment insights.",
+        "Automated a sentiment-analysis pipeline processing 1M+ records and surfaced real-time QuickSight dashboards (5\u00d7 faster feedback loops).",
+        "Fine-tuned models in SageMaker using instruction training, improving accuracy by ~5% and reducing toxicity by ~8%."
+      ]
+    },
+    {
+      "title": "Software Developer Intern",
+      "company": "WOPLLI Technologies",
+      "location": "Remote, NY",
+      "dates": "Jun 2024 \u2013 Sep 2024",
+      "highlights": [
+        "Designed a Virtual Credential System for decentralized identity ecosystems.",
+        "Configured and tested Azure cloud environments for application hosting and deployment.",
+        "Produced data-flow and architecture diagrams aligned with governance policies.",
+        "Developed API integration and testing scripts using postman.",
+        "Managed relations with 3rd-party vendors to ensure timely delivery of project components.",
+        "Researched emerging technologies in decentralized identity."
+      ]
+    },
+    {
+      "title": "IT Support Intern",
+      "company": "Mayor\u2019s Office of Information Services",
+      "location": "New York, NY",
+      "dates": "Feb 2024 \u2013 May 2024",
+      "highlights": [
+        "Automated troubleshooting workflows via Python scripts to reduce manual workload.",
+        "Monitored logs and CrowdStrike dashboards to escalate abnormal activities.",
+        "Supported VIP users with secure access (Active Directory, VPN, VOIP).",
+        "Refeerbished and tracked over 800 devices for redeployment across city agencies.",
+        "Maintained IT asset inventory using ServiceNow.",
+        "Delivered white glove support on over 100 tickets with excellent service reviews.",
+        "Participated in cybersecurity training and phishing simulations to enhance organizational security posture."
+      ]
+    },
+    {
+      "title": "IT Instructor Assistant",
+      "company": "RF CUNY & Generation USA (Choose-U)",
+      "location": "Remote, NY",
+      "dates": "Feb 2022 \u2013 Aug 2023",
+      "highlights": [
+        "Delivered 36 lessons covering IT support, Linux, PowerShell, and scripting for 200+ learners.",
+        "Maintained a 96% cohort graduation rate through data-driven instruction.",
+        "Developed comprehensive testing materials to assess student progress.",
+        "Created a database using google sheets to track student engagement and proficiency across modules.",
+        "Developed curated resources and study guides to supplement learning."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Alfred \u2013 Personal Agentic Job Search Assistant",
+      "description": "FastAPI + OpenAI GPT-4 Mini system that automates resume and cover-letter generation with RAG.",
+      "tech": [
+        "FastAPI",
+        "PostgreSQL + pgvector",
+        "OpenAI GPT-4.1 mini",
+        "Docker",
+        "CI/CD",
+        "OpenAi Embeddings",
+        "RAG",
+        " GPT4.1",
+        "google-genai"
+      ],
+      "highlights": [
+        "Implemented GitHub ingestion and job-board APIs for sourcing opportunities.",
+        "Built Resume/Cover Letter pipelines leveraging cosine similarity to match jobs.",
+        "Reduced time to apply by 60% and boosted weekly applications by 300%.",
+        "Designed full CI/CD pipeline for automated testing and deployment. through GitHub Actions.",
+        "Designed a PostgreSQL + pgvector schema for storing embeddings and job data.",
+        "Integrated OpenAI GPT-4.1 mini for dynamic document generation based on job descriptions.",
+        "Integrated Google Generative AI for enhanced content creation and refinement.",
+        "Created a  model evalaution framework to assess output quality and relevance."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Master of Science \u2013 Data Science and Machine Learning",
+      "institution": "City University of New York \u2013 School of Professional Studies",
+      "dates": "Expected Jan 2026",
+      "honors": [
+        "GPA 4.0",
+        "Dean\u2019s List 2x"
+      ]
+    },
+    {
+      "degree": "Bachelor of Technology \u2013 Computer Information Systems",
+      "institution": "City University of New York \u2013 NYC College of Technology",
+      "dates": "Jun 2024",
+      "honors": [
+        "GPA 3.78",
+        "Dean\u2019s List (5x)",
+        "National Honor Society"
+      ]
+    }
+  ],
+  "certifications": [
+    "AWS Certified Solutions Architect \u2013 Associate",
+    "AWS Certified AI Practitioner \u2013 Generative AI",
+    "Google Cybersecurity Certificate",
+    "Google Information Support Certificate"
+  ],
+  "Interests and Social Activities": {
+    "interests": [
+      "AI Ethics and Responsible AI- CUNY SPS AI Club",
+      "NYHackR R based community ",
+      "Socieit of Hispanic Professional Engineers",
+      "Science Fiction Literature",
+      "Chess",
+      "Basketball",
+      "Poker"
+    ]
+  }
+}

@@ -1,9 +1,11 @@
 # backend/agents/job_fetcher.py
 import os
+import json
 import hashlib
 import requests
 import re
 from html import unescape
+from pathlib import Path
 from typing import List, Dict, Optional, Any
 
 from dotenv import load_dotenv
@@ -24,6 +26,7 @@ class JobFetcherAgent(BaseAgent):
     DEFAULT_LOCATION = "New York City"
     DEFAULT_RESULTS_PER_PAGE = 20
     DEFAULT_MAX_PAGES = 3  # fetch first 3 pages -> up to ~60 jobs
+    PREFERENCES_PATH = Path(__file__).resolve().parents[1] / "profile" / "preferences.json"
 
     def __init__(self, config: AgentConfig):
         super().__init__("JobFetcher", config)
@@ -33,12 +36,25 @@ class JobFetcherAgent(BaseAgent):
         # -----------------------------------------
         self.state.setdefault("seen_job_hashes", [])
         fetch_config = self.state.setdefault("fetch_config", {})
+        prefs = self._load_preferences()
 
-        # Runtime configuration (overridable via .env or persisted state)
-        self.query = fetch_config.get("query") or os.getenv("JOB_FETCHER_QUERY", self.DEFAULT_QUERY)
-        self.location = fetch_config.get("location") or os.getenv("JOB_FETCHER_LOCATION", self.DEFAULT_LOCATION)
+        pref_query = prefs.get("target_title") or ""
+        pref_location = prefs.get("location") or ""
+
+        # Runtime configuration (preferences -> state -> env -> defaults)
+        self.query = (
+            pref_query
+            or fetch_config.get("query")
+            or os.getenv("JOB_FETCHER_QUERY", self.DEFAULT_QUERY)
+        )
+        self.location = (
+            pref_location
+            or fetch_config.get("location")
+            or os.getenv("JOB_FETCHER_LOCATION", self.DEFAULT_LOCATION)
+        )
         self.results_per_page = int(fetch_config.get("results_per_page") or os.getenv("JOB_FETCHER_RESULTS_PER_PAGE", self.DEFAULT_RESULTS_PER_PAGE))
         self.max_pages = int(fetch_config.get("max_pages") or os.getenv("JOB_FETCHER_MAX_PAGES", self.DEFAULT_MAX_PAGES))
+        self.logger.info(f"JobFetcher configured for query='{self.query}', location='{self.location}'")
 
     # -----------------------------------------
     # Helper: job fingerprint
@@ -188,6 +204,16 @@ class JobFetcherAgent(BaseAgent):
         text = unescape(html)
         text = re.sub(r"\s+", " ", text)
         return text.strip()
+
+    def _load_preferences(self) -> Dict[str, Any]:
+        if not self.PREFERENCES_PATH.exists():
+            return {}
+        try:
+            with open(self.PREFERENCES_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as exc:
+            self.logger.warning(f"Failed to load preferences: {exc}")
+            return {}
 
 
 # -----------------------------
