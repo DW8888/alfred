@@ -40,6 +40,8 @@ class JobFetcherAgent(BaseAgent):
 
         pref_query = prefs.get("target_title") or ""
         pref_location = prefs.get("location") or ""
+        pref_results = prefs.get("results_per_page")
+        pref_max_pages = prefs.get("max_pages")
 
         # Runtime configuration (preferences -> state -> env -> defaults)
         self.query = (
@@ -52,9 +54,20 @@ class JobFetcherAgent(BaseAgent):
             or fetch_config.get("location")
             or os.getenv("JOB_FETCHER_LOCATION", self.DEFAULT_LOCATION)
         )
-        self.results_per_page = int(fetch_config.get("results_per_page") or os.getenv("JOB_FETCHER_RESULTS_PER_PAGE", self.DEFAULT_RESULTS_PER_PAGE))
-        self.max_pages = int(fetch_config.get("max_pages") or os.getenv("JOB_FETCHER_MAX_PAGES", self.DEFAULT_MAX_PAGES))
-        self.logger.info(f"JobFetcher configured for query='{self.query}', location='{self.location}'")
+        self.results_per_page = int(
+            pref_results
+            or fetch_config.get("results_per_page")
+            or os.getenv("JOB_FETCHER_RESULTS_PER_PAGE", self.DEFAULT_RESULTS_PER_PAGE)
+        )
+        self.max_pages = int(
+            pref_max_pages
+            or fetch_config.get("max_pages")
+            or os.getenv("JOB_FETCHER_MAX_PAGES", self.DEFAULT_MAX_PAGES)
+        )
+        self.logger.info(
+            f"JobFetcher configured for query='{self.query}', location='{self.location}', "
+            f"results_per_page={self.results_per_page}, max_pages={self.max_pages}"
+        )
 
     # -----------------------------------------
     # Helper: job fingerprint
@@ -132,13 +145,20 @@ class JobFetcherAgent(BaseAgent):
 
         resp = self.api_post("/jobs/", payload)
 
-        if resp and resp.get("duplicate"):
-            self.logger.info(f">>==>> Duplicate skipped (backend): {payload['title']}")
-        elif resp:
-            self.logger.info(f"--OK-- Inserted job: {payload['title']}")
-        else:
+        if not resp:
             self.logger.error("--XX-- Failed to insert job into backend")
             return
+
+        duplicate = resp.get("duplicate", False)
+        job_info = resp.get("job") or {}
+
+        if duplicate:
+            self.logger.info(f">>==>> Duplicate skipped (backend): {payload['title']}")
+        else:
+            inserted_id = job_info.get("id")
+            self.logger.info(
+                f"--OK-- Inserted job: {payload['title']} (id={inserted_id})"
+            )
 
         # -----------------------------------------
         # Add to seen list after successful insert

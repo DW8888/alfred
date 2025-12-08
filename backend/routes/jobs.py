@@ -11,7 +11,7 @@ from typing import List, Dict, Any
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from backend.db.models import Job
+from backend.db.models import Job, GeneratedArtifact
 from backend.db.repo import SessionLocal
 from backend.db.schemas import JobCreate, JobRead
 
@@ -78,7 +78,12 @@ def _summarize_job_skills(skill_dict: Dict[str, List[str]]) -> str:
 # --------------------------------------------------------------------
 # CRUD: Create Job
 # --------------------------------------------------------------------
-@router.post("/", response_model=JobRead)
+class JobCreateResponse(BaseModel):
+    job: JobRead
+    duplicate: bool = False
+
+
+@router.post("/", response_model=JobCreateResponse)
 def create_job(job: JobCreate, db: Session = Depends(get_db)):
 
     db_job = Job(**job.dict())
@@ -87,12 +92,14 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
         db.add(db_job)
         db.commit()
         db.refresh(db_job)
-        return db_job
+        return {"job": db_job, "duplicate": False}
 
     except IntegrityError:
         db.rollback()
         existing = db.query(Job).filter(Job.source_url == job.source_url).first()
-        return existing
+        if not existing:
+            raise HTTPException(status_code=409, detail="Job with this source URL already exists but could not be retrieved.")
+        return {"job": existing, "duplicate": True}
 
 
 # --------------------------------------------------------------------
@@ -122,6 +129,7 @@ class JobMatchRequest(BaseModel):
     company: str | None = None
     description: str
     top_k: int = 4
+    job_id: int | None = None
 
 
 # --------------------------------------------------------------------
@@ -153,6 +161,39 @@ def _skills_to_set(sk: Dict[str, List[str]]) -> set:
             if v:
                 agg.add(v)
     return agg
+
+
+def _persist_generated_artifact(
+    db: Session,
+    job_id: int | None,
+    job_title: str,
+    company: str,
+    artifact_type: str,
+    content: str,
+) -> int | None:
+    """Persist ad-hoc resume/cover letter output for auditability."""
+    if not job_id or not content.strip():
+        return None
+
+    job = db.query(Job).filter(Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail=f"Job {job_id} not found for persistence.")
+
+    record = GeneratedArtifact(
+        job_id=job_id,
+        job_title=job_title or (job.title or ""),
+        company=company or (job.company or ""),
+        artifact_type=artifact_type,
+        content=content,
+    )
+    try:
+        db.add(record)
+        db.commit()
+        db.refresh(record)
+        return record.id
+    except Exception as exc:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to persist generated {artifact_type}: {exc}") from exc
 
 
 # --------------------------------------------------------------------
@@ -336,11 +377,21 @@ def generate_resume(request: JobMatchRequest, db: Session = Depends(get_db)):
         resume_md = parsed.get("resume_markdown") or parsed.get("resume") or parsed.get("resume_text") or ""
         resume_md = (resume_md or "").strip()
 
+        artifact_id = _persist_generated_artifact(
+            db,
+            request.job_id,
+            title,
+            company,
+            "resume",
+            resume_md,
+        )
+
         return {
             "job_title": title,
             "company": company,
             "reasoning": reasoning,
-            "generated_resume": resume_md
+            "generated_resume": resume_md,
+            "artifact_id": artifact_id,
         }
 
     except Exception as e:
@@ -419,11 +470,21 @@ def generate_resume_job_focus(request: JobMatchRequest, db: Session = Depends(ge
         resume_md = parsed.get("resume_markdown") or parsed.get("resume") or parsed.get("resume_text") or ""
         resume_md = (resume_md or "").strip()
 
+        artifact_id = _persist_generated_artifact(
+            db,
+            request.job_id,
+            title,
+            company,
+            "resume",
+            resume_md,
+        )
+
         return {
             "job_title": title,
             "company": company,
             "reasoning": reasoning,
-            "generated_resume": resume_md
+            "generated_resume": resume_md,
+            "artifact_id": artifact_id,
         }
 
     except Exception as e:
@@ -497,10 +558,20 @@ def generate_cover_letter(request: JobMatchRequest, db: Session = Depends(get_db
 
         output = completion.choices[0].message.content.strip()
 
+        artifact_id = _persist_generated_artifact(
+            db,
+            request.job_id,
+            title,
+            company,
+            "cover_letter",
+            output,
+        )
+
         return {
             "job_title": title,
             "company": company,
-            "generated_cover_letter": output
+            "generated_cover_letter": output,
+            "artifact_id": artifact_id,
         }
 
     except Exception as e:

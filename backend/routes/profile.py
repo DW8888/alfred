@@ -21,11 +21,18 @@ class ProfilePayload(BaseModel):
 class PreferencesPayload(BaseModel):
     target_title: str | None = None
     location: str | None = None
+    results_per_page: int | None = None
+    max_pages: int | None = None
 
 
 def _ensure_preferences() -> Dict[str, Any]:
     if not os.path.exists(PREFERENCES_PATH):
-        default = {"target_title": "", "location": ""}
+        default = {
+            "target_title": "",
+            "location": "",
+            "results_per_page": 20,
+            "max_pages": 3,
+        }
         with open(PREFERENCES_PATH, "w", encoding="utf-8") as f:
             json.dump(default, f, indent=2)
         return default
@@ -65,6 +72,14 @@ def update_preferences(payload: PreferencesPayload):
         prefs["target_title"] = payload.target_title
     if payload.location is not None:
         prefs["location"] = payload.location
+    if payload.results_per_page is not None:
+        if payload.results_per_page <= 0:
+            raise HTTPException(status_code=400, detail="results_per_page must be positive")
+        prefs["results_per_page"] = payload.results_per_page
+    if payload.max_pages is not None:
+        if payload.max_pages <= 0:
+            raise HTTPException(status_code=400, detail="max_pages must be positive")
+        prefs["max_pages"] = payload.max_pages
     with open(PREFERENCES_PATH, "w", encoding="utf-8") as f:
         json.dump(prefs, f, indent=2)
     return {"status": "ok", "preferences": prefs}
