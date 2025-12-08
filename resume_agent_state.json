@@ -69,6 +69,97 @@
       "company": "Touro University",
       "score": 0.6148350811495906,
       "resume_pdf": "backend/generated\\resumes\\682_Touro_University_Senior_ETL__Data_Analyst.pdf"
+    },
+    "1008": {
+      "job_id": 1008,
+      "title": "Business Analyst",
+      "company": "Stellar Professionals",
+      "score": 0.638420312185962,
+      "resume_pdf": "backend/generated\\resumes\\1008_Stellar_Professionals_Business_Analyst.pdf"
+    },
+    "1045": {
+      "job_id": 1045,
+      "title": "Business Analyst",
+      "company": "Creative Information Technology, Inc",
+      "score": 0.6278114625693604,
+      "resume_pdf": "backend/generated\\resumes\\1045_Creative_Information_Technology_Inc_Business_Analyst.pdf"
+    },
+    "1066": {
+      "job_id": 1066,
+      "title": "Software Engineering Manager",
+      "company": "Meta",
+      "score": 0.6220954559046372,
+      "resume_pdf": "backend/generated\\resumes\\1066_Meta_Software_Engineering_Manager.pdf"
+    },
+    "1087": {
+      "job_id": 1087,
+      "title": "Principal Software Engineer",
+      "company": "Oracle",
+      "score": 0.6493147039229514,
+      "resume_pdf": "backend/generated\\resumes\\1087_Oracle_Principal_Software_Engineer.pdf"
+    },
+    "1057": {
+      "job_id": 1057,
+      "title": "Software Engineer",
+      "company": "Pearson",
+      "score": 0.6124233189736725,
+      "resume_pdf": "backend/generated\\resumes\\1057_Pearson_Software_Engineer.pdf"
+    },
+    "1074": {
+      "job_id": 1074,
+      "title": "Principal Software Engineer",
+      "company": "Oracle",
+      "score": 0.629452987496358,
+      "resume_pdf": "backend/generated\\resumes\\1074_Oracle_Principal_Software_Engineer.pdf"
+    },
+    "1077": {
+      "job_id": 1077,
+      "title": "Sr. Software Engineer",
+      "company": "Educational Testing Service",
+      "score": 0.61670278873299,
+      "resume_pdf": "backend/generated\\resumes\\1077_Educational_Testing_Service_Sr_Software_Engineer.pdf"
+    },
+    "1089": {
+      "job_id": 1089,
+      "title": "Software Engineer, Android",
+      "company": "Meta",
+      "score": 0.7276739478017447,
+      "resume_pdf": "backend/generated\\resumes\\1089_Meta_Software_Engineer_Android.pdf"
+    },
+    "1165": {
+      "job_id": 1165,
+      "title": "Software Engineer, Android",
+      "company": "Capital One",
+      "score": 0.690940582605131,
+      "resume_pdf": "backend/generated\\resumes\\1165_Capital_One_Software_Engineer_Android.pdf"
+    },
+    "1174": {
+      "job_id": 1174,
+      "title": "Software Engineer (Leadership) - Infrastructure",
+      "company": "Meta",
+      "score": 0.6103519041368286,
+      "resume_pdf": "backend/generated\\resumes\\1174_Meta_Software_Engineer_Leadership__Infrastructure.pdf"
+    },
+    "1196": {
+      "job_id": 1196,
+      "title": "Sr. Software Engineer",
+      "company": "Robert Half",
+      "score": 0.6001755513608529,
+      "resume_pdf": "backend/generated\\resumes\\1196_Robert_Half_Sr_Software_Engineer.pdf"
+    },
+    "1209": {
+      "job_id": 1209,
+      "title": "Sr. Software Engineer",
+      "company": "Robert Half",
+      "score": 0.6001898964310894,
+      "resume_pdf": "backend/generated\\resumes\\1209_Robert_Half_Sr_Software_Engineer.pdf"
+    },
+    "1303": {
+      "job_id": 1303,
+      "title": "IT Support/Technician Intern",
+      "company": "ETech 7",
+      "score": 0.6331406880301649,
+      "resume_pdf": "backend/generated\\resumes\\1303_ETech_7_IT_SupportTechnician_Intern.pdf"
     }
   }
 }

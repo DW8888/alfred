@@ -10,6 +10,7 @@ from sqlalchemy import (
     JSON,
     UniqueConstraint,
     ForeignKey,
+    Float,
 )
 from sqlalchemy.orm import declarative_base, relationship
 from pgvector.sqlalchemy import Vector
@@ -33,6 +34,7 @@ class Job(Base):
     description = Column(Text)
     source_url = Column(Text, unique=True, nullable=False)
     created_at = Column(DateTime(timezone=True), default=now_eastern)
+    match_score = Column(Float, nullable=True)
 
     __table_args__ = (
         UniqueConstraint("source_url", name="uq_job_source_url"),

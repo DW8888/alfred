@@ -26,6 +26,7 @@ class JobCreate(JobBase):
 class JobRead(JobBase):
     id: int
     created_at: datetime | None = None
+    match_score: float | None = None
 
     model_config = {
         "from_attributes": True

@@ -1,5 +1,5 @@
 # backend/routes/jobs.py
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import text
@@ -106,8 +106,16 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
 # CRUD: List Jobs
 # --------------------------------------------------------------------
 @router.get("/", response_model=List[JobRead])
-def get_jobs(db: Session = Depends(get_db)):
-    return db.query(Job).all()
+def get_jobs(
+    limit: int = Query(25, ge=1, le=100),
+    db: Session = Depends(get_db),
+):
+    return (
+        db.query(Job)
+        .order_by(Job.id.desc())
+        .limit(limit)
+        .all()
+    )
 
 
 # --------------------------------------------------------------------
@@ -292,10 +300,25 @@ def match_job(req: JobMatchRequest) -> Dict[str, Any]:
 
     enriched_matches.sort(key=lambda m: m["combined_score"], reverse=True)
 
+    best_score = enriched_matches[0]["combined_score"] if enriched_matches else None
+
+    if req.job_id and best_score is not None:
+        session = SessionLocal()
+        try:
+            job = session.query(Job).filter(Job.id == req.job_id).first()
+            if job:
+                job.match_score = best_score
+                session.commit()
+        except Exception:
+            session.rollback()
+        finally:
+            session.close()
+
     return {
         "job_title": req.title,
         "company": req.company,
         "matches": enriched_matches,
+        "best_score": best_score,
     }
 
 

@@ -43,7 +43,7 @@ type MatchResult = {
 };
 
 const DEFAULT_API_BASE = "http://127.0.0.1:8000";
-const MAX_VISIBLE_JOBS = 25;
+const MAX_VISIBLE_JOBS = 10;
 
 export default function ControlPanelPage() {
   const [apiBaseInput, setApiBaseInput] = useState(DEFAULT_API_BASE);
@@ -163,14 +163,15 @@ export default function ControlPanelPage() {
       return;
     }
     setJobsLoading(true);
+    setConsoleMessage("Refreshing jobs...");
     try {
-      const resp = await fetch(buildUrl("/jobs/"));
+      const resp = await fetch(buildUrl(`/jobs/?limit=${MAX_VISIBLE_JOBS}`));
       if (!resp.ok) {
         throw new Error("Failed to load jobs");
       }
       const data: JobRecord[] = await resp.json();
-      const recent = data.slice(-MAX_VISIBLE_JOBS).reverse();
-      setJobs(recent);
+      setJobs(data);
+      setConsoleMessage(`Loaded ${data.length} jobs.`);
     } catch (err) {
       setConsoleMessage(`Job load error: ${err}`);
     } finally {
@@ -616,7 +617,12 @@ export default function ControlPanelPage() {
               <p className="muted">Latest entries from Alfred backend.</p>
             </div>
             <div className="card-actions">
-              <button className="btn secondary" onClick={loadJobs}>
+              <button
+                className="btn secondary"
+                onClick={() => {
+                  void loadJobs();
+                }}
+              >
                 {jobsLoading ? "Refreshing..." : "Refresh Jobs"}
               </button>
               <button className="btn" onClick={handleFetchNewJobs}>
@@ -631,6 +637,9 @@ export default function ControlPanelPage() {
               jobs.map((job) => (
                 <article key={job.id} className="job-card">
                   <h3>{job.title}</h3>
+                  <p>
+                    <strong>Job ID:</strong> {job.id}
+                  </p>
                   <p>
                     <strong>Company:</strong> {job.company || "n/a"}
                   </p>

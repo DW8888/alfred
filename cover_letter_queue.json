@@ -119,6 +119,84 @@
       "score": 0.6148350811495906,
       "title": "Senior ETL & Data Analyst",
       "company": "Touro University"
+    },
+    {
+      "job_id": 1008,
+      "score": 0.638420312185962,
+      "title": "Business Analyst",
+      "company": "Stellar Professionals"
+    },
+    {
+      "job_id": 1045,
+      "score": 0.6278114625693604,
+      "title": "Business Analyst",
+      "company": "Creative Information Technology, Inc"
+    },
+    {
+      "job_id": 1066,
+      "score": 0.6220954559046372,
+      "title": "Software Engineering Manager",
+      "company": "Meta"
+    },
+    {
+      "job_id": 1087,
+      "score": 0.6493147039229514,
+      "title": "Principal Software Engineer",
+      "company": "Oracle"
+    },
+    {
+      "job_id": 1057,
+      "score": 0.6124233189736725,
+      "title": "Software Engineer",
+      "company": "Pearson"
+    },
+    {
+      "job_id": 1074,
+      "score": 0.629452987496358,
+      "title": "Principal Software Engineer",
+      "company": "Oracle"
+    },
+    {
+      "job_id": 1077,
+      "score": 0.61670278873299,
+      "title": "Sr. Software Engineer",
+      "company": "Educational Testing Service"
+    },
+    {
+      "job_id": 1089,
+      "score": 0.7276739478017447,
+      "title": "Software Engineer, Android",
+      "company": "Meta"
+    },
+    {
+      "job_id": 1165,
+      "score": 0.690940582605131,
+      "title": "Software Engineer, Android",
+      "company": "Capital One"
+    },
+    {
+      "job_id": 1174,
+      "score": 0.6103519041368286,
+      "title": "Software Engineer (Leadership) - Infrastructure",
+      "company": "Meta"
+    },
+    {
+      "job_id": 1196,
+      "score": 0.6001755513608529,
+      "title": "Sr. Software Engineer",
+      "company": "Robert Half"
+    },
+    {
+      "job_id": 1209,
+      "score": 0.6001898964310894,
+      "title": "Sr. Software Engineer",
+      "company": "Robert Half"
+    },
+    {
+      "job_id": 1303,
+      "score": 0.6331406880301649,
+      "title": "IT Support/Technician Intern",
+      "company": "ETech 7"
     }
   ]
 }
