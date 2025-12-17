@@ -8,21 +8,26 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))
 
+from sqlalchemy import text  # noqa: E402
 from backend.db.repo import SessionLocal, engine  # noqa: E402
-from backend.db.models import Job, JobEmbedding  # noqa: E402
+from backend.db.models import Job  # noqa: E402
 from backend.utils.embedding import embed_text  # noqa: E402
 
 
-def ensure_table_exists() -> None:
-    JobEmbedding.__table__.create(bind=engine, checkfirst=True)
+def ensure_column_exists() -> None:
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "ALTER TABLE jobs "
+                "ADD COLUMN IF NOT EXISTS description_embedding vector(1536);"
+            )
+        )
 
 
 def fetch_jobs(session, include_existing: bool, limit: int | None):
     query = session.query(Job)
     if not include_existing:
-        query = query.outerjoin(JobEmbedding, Job.id == JobEmbedding.job_id).filter(
-            JobEmbedding.job_id.is_(None)
-        )
+        query = query.filter(Job.description_embedding.is_(None))
     query = query.order_by(Job.id.asc())
     if limit:
         query = query.limit(limit)
@@ -36,11 +41,7 @@ def upsert_embedding(session, job: Job) -> bool:
     full_text = f"{job.title or ''}\n{job.company or ''}\n{job.description or ''}"
     vector = embed_text(full_text)
 
-    record = session.query(JobEmbedding).filter(JobEmbedding.job_id == job.id).one_or_none()
-    if record:
-        record.embedding = vector
-    else:
-        session.add(JobEmbedding(job_id=job.id, embedding=vector))
+    job.description_embedding = vector
     session.commit()
     return True
 
@@ -63,7 +64,7 @@ def main():
     args = parser.parse_args()
 
     load_dotenv()
-    ensure_table_exists()
+    ensure_column_exists()
 
     session = SessionLocal()
     try:
