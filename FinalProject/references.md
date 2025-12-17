@@ -1,0 +1,12 @@
+# References
+
+- Blondel, V. D., Guillaume, J.-L., Lambiotte, R., & Lefebvre, E. (2008). *Fast unfolding of communities in large networks.* Journal of Statistical Mechanics: Theory and Experiment, 2008(10), P10008. https://doi.org/10.1088/1742-5468/2008/10/P10008 — describes the Louvain modularity optimization used for community detection on the projected skill graphs.
+- Hagberg, A., Schult, D., & Swart, P. (2008). *Exploring network structure, dynamics, and function using NetworkX.* In Proceedings of the 7th Python in Science Conference (SciPy 2008). https://networkx.org/documentation/stable/ — primary reference for the NetworkX graph modeling API, including bipartite graphs and projections.
+- Latapy, M., Magnien, C., & Del Vecchio, N. (2008). *Basic notions for the analysis of large two-mode networks.* Social Networks, 30(1), 31–48. https://doi.org/10.1016/j.socnet.2007.04.006 — foundational work on bipartite projection techniques that motivate our job–skill graph analysis.
+- Honnibal, M., Montani, I., Van Landeghem, S., & Boyd, A. (2020). *spaCy: Industrial-strength Natural Language Processing in Python.* https://spacy.io — reference for the spaCy NLP pipelines used in the dynamic skill extraction workflow.
+- The pandas development team. (2020). *pandas-dev/pandas: Pandas* (Version 2.x) [Computer software]. https://pandas.pydata.org/ — data manipulation library for job tables, summaries, and exports.
+- SQLAlchemy Authors. (2024). *SQLAlchemy Documentation.* https://docs.sqlalchemy.org/en/20/ — ORM/engine toolkit leveraged to connect to the `alfred_db` PostgreSQL instance.
+- Hunter, J. D., & Droettboom, M. (2012). *Matplotlib: Visualization with Python.* https://matplotlib.org/ — base plotting stack for static inspection of summary distributions.
+- Plotly Technologies Inc. (2015). *Collaborative data science.* https://plotly.com/python/plotly-express/ — interactive visualization framework used for job/skill bar charts and network renderings.
+- Pedregosa, F., et al. (2011). *Scikit-learn: Machine Learning in Python.* Journal of Machine Learning Research, 12, 2825–2830. https://scikit-learn.org/ — utilities for feature scaling and additional analysis helpers referenced in the notebook environment.
+- da Costa-Luis, C. (2024). *tqdm: A Fast, Extensible Progress Bar for Python.* https://tqdm.github.io/ — progress reporting utility for long-running ETL/graph construction steps.

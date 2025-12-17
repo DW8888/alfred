@@ -290,7 +290,9 @@
         "project1/news_publishers_centrality_files/libs/quarto-html/quarto.js": "39e6869927061bfed0e6e3c92a0b7455b330ddbd",
         "project1/news_publishers_centrality_files/libs/quarto-html/tippy.umd.min.js": "ca292be32b252f9a40e231f3a3e696b2506f7c96",
         "spam_ham/spam_classificator.ipynb": "1be53b5da07ddae0ffbd583baa504f7bd6f54576",
-        "Assignment1.ipynb": "5c13ac081b63e98e8fac2da788ab83e7bcfe5e8b"
+        "Assignment1.ipynb": "5c13ac081b63e98e8fac2da788ab83e7bcfe5e8b",
+        "FinalProject/AlfredJobsNetwork.ipynb": "c89bf0b338c26f8b1d21c8a9ef6e98f7a588ae2c",
+        "FinalProject/skill_islands_visualization.json": "2b36795ab8b895970e4207224846e7d7d0a0ea5b"
       }
     },
     "data621": {
@@ -314,14 +316,21 @@
         "Assignment 3/neighborhoods_safe_classification_files/libs/quarto-html/popper.min.js": "e3726d728b717eb344760b3db47f7e9b142ed0fb",
         "Assignment 3/neighborhoods_safe_classification_files/libs/quarto-html/quarto.js": "39e6869927061bfed0e6e3c92a0b7455b330ddbd",
         "Assignment 3/neighborhoods_safe_classification_files/libs/quarto-html/tippy.umd.min.js": "ca292be32b252f9a40e231f3a3e696b2506f7c96",
-        "Assingment4/insurance_modeling_files/libs/bootstrap/bootstrap.min.js": "e8f21f703f7bb4e9ab84daca93c9ee1d5358a316",
-        "Assingment4/insurance_modeling_files/libs/clipboard/clipboard.min.js": "1103f811ed80f17985ecf61e0d50e3359484244f",
-        "Assingment4/insurance_modeling_files/libs/quarto-html/anchor.min.js": "5ac814d1e2bf288721fe5f4d9f0aae2a6283903e",
-        "Assingment4/insurance_modeling_files/libs/quarto-html/popper.min.js": "e3726d728b717eb344760b3db47f7e9b142ed0fb",
-        "Assingment4/insurance_modeling_files/libs/quarto-html/quarto.js": "39e6869927061bfed0e6e3c92a0b7455b330ddbd",
-        "Assingment4/insurance_modeling_files/libs/quarto-html/tippy.umd.min.js": "ca292be32b252f9a40e231f3a3e696b2506f7c96",
         "README.md": "89b3a856b449fabc310bc4c299265d592dd62a46",
-        "money-ball-notebook.ipynb": "ae7041479d9bea53f47ad0df2501e9b4d8ab5533"
+        "money-ball-notebook.ipynb": "ae7041479d9bea53f47ad0df2501e9b4d8ab5533",
+        "Assignment 4/insurance_modeling_files/libs/bootstrap/bootstrap.min.js": "e8f21f703f7bb4e9ab84daca93c9ee1d5358a316",
+        "Assignment 4/insurance_modeling_files/libs/clipboard/clipboard.min.js": "1103f811ed80f17985ecf61e0d50e3359484244f",
+        "Assignment 4/insurance_modeling_files/libs/quarto-html/anchor.min.js": "5ac814d1e2bf288721fe5f4d9f0aae2a6283903e",
+        "Assignment 4/insurance_modeling_files/libs/quarto-html/popper.min.js": "e3726d728b717eb344760b3db47f7e9b142ed0fb",
+        "Assignment 4/insurance_modeling_files/libs/quarto-html/quarto.js": "39e6869927061bfed0e6e3c92a0b7455b330ddbd",
+        "Assignment 4/insurance_modeling_files/libs/quarto-html/tippy.umd.min.js": "ca292be32b252f9a40e231f3a3e696b2506f7c96",
+        "Assignment 5/Wine-Count-Regression_files/libs/bootstrap/bootstrap.min.js": "e8f21f703f7bb4e9ab84daca93c9ee1d5358a316",
+        "Assignment 5/Wine-Count-Regression_files/libs/clipboard/clipboard.min.js": "1103f811ed80f17985ecf61e0d50e3359484244f",
+        "Assignment 5/Wine-Count-Regression_files/libs/quarto-html/anchor.min.js": "5ac814d1e2bf288721fe5f4d9f0aae2a6283903e",
+        "Assignment 5/Wine-Count-Regression_files/libs/quarto-html/popper.min.js": "e3726d728b717eb344760b3db47f7e9b142ed0fb",
+        "Assignment 5/Wine-Count-Regression_files/libs/quarto-html/quarto.js": "39e6869927061bfed0e6e3c92a0b7455b330ddbd",
+        "Assignment 5/Wine-Count-Regression_files/libs/quarto-html/tippy.umd.min.js": "ca292be32b252f9a40e231f3a3e696b2506f7c96",
+        "FinalProject/fianlProjectRcode.R": "b7fdcf78c9111fe48ebf91c728d4ab323b0167d0"
       }
     },
     "Data698": {

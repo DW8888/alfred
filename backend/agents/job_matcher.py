@@ -66,6 +66,7 @@ class JobMatcherAgent(BaseAgent):
 
     def match_job(self, job: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         payload = {
+            "job_id": job.get("id"),
             "title": job.get("title", ""),
             "company": job.get("company", "") or "",
             "description": job.get("description", "") or "",

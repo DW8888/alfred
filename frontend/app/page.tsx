@@ -404,6 +404,7 @@ export default function ControlPanelPage() {
       </header>
 
       <main className="container">
+        <div className="primary-column">
         <section className="card">
           <h2>API Endpoint</h2>
           <label htmlFor="api-base">Backend Base URL</label>
@@ -724,11 +725,14 @@ export default function ControlPanelPage() {
             </div>
           )}
         </section>
+        </div>
 
-        <section className="card">
-          <h2>Result Console</h2>
-          <pre className="console">{consoleMessage}</pre>
-        </section>
+        <aside className="console-column">
+          <section className="card">
+            <h2>Result Console</h2>
+            <pre className="console">{consoleMessage}</pre>
+          </section>
+        </aside>
       </main>
     </>
   );

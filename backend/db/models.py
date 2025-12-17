@@ -50,6 +50,12 @@ class Job(Base):
         back_populates="job",
         cascade="all, delete-orphan",
     )
+    job_embedding = relationship(
+        "JobEmbedding",
+        back_populates="job",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self):
         return f"<Job(title={self.title}, company={self.company}, location={self.location})>"
@@ -83,6 +89,21 @@ class GeneratedArtifact(Base):
     created_at = Column(DateTime(timezone=True), default=now_eastern)
 
     job = relationship("Job", back_populates="generated_artifacts")
+
+
+class JobEmbedding(Base):
+    __tablename__ = "job_embeddings"
+
+    job_id = Column(Integer, ForeignKey("jobs.id"), primary_key=True)
+    embedding = Column(Vector(1536), nullable=False)
+    created_at = Column(DateTime(timezone=True), default=now_eastern)
+    updated_at = Column(
+        DateTime(timezone=True),
+        default=now_eastern,
+        onupdate=now_eastern,
+    )
+
+    job = relationship("Job", back_populates="job_embedding")
 
 
 class ApplicationPackage(Base):

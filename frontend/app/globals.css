@@ -32,6 +32,20 @@ body {
   padding: 2rem;
   display: grid;
   gap: 1.5rem;
+  grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
+  align-items: flex-start;
+}
+
+.primary-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.console-column {
+  position: sticky;
+  top: 2rem;
+  align-self: flex-start;
 }
 
 .card {
@@ -182,5 +196,10 @@ pre.console {
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .console-column {
+    position: static;
   }
 }

@@ -69,6 +69,20 @@
       "company": "UniUni Logistics",
       "score": 0.6432850423440304,
       "resume_pdf": "backend/generated\\resumes\\669_UniUni_Logistics_Senior_Data_Analyst.pdf"
+    },
+    "1605": {
+      "job_id": 1605,
+      "title": "Senior WW Specialist Solutions Architect - Amazon Connect (Contact Center Solutions WFM, CRM), AWS WWSO Apps",
+      "company": "Amazon Web Services, Inc.",
+      "score": 0.6311020999988675,
+      "resume_pdf": "backend/generated\\resumes\\1605_Amazon_Web_Services_Inc_Senior_WW_Specialist_Solutions_Architect__Amazon_Connect_Contact_Center_Solutions_WFM_CRM_AWS_WWSO_Apps.pdf"
+    },
+    "1627": {
+      "job_id": 1627,
+      "title": "Senior WW Specialist Solutions Architect - Amazon Connect (Contact Center Solutions WFM, CRM), AWS WWSO Apps",
+      "company": "Amazon Web Services, Inc.",
+      "score": 0.631072134070506,
+      "resume_pdf": "backend/generated\\resumes\\1627_Amazon_Web_Services_Inc_Senior_WW_Specialist_Solutions_Architect__Amazon_Connect_Contact_Center_Solutions_WFM_CRM_AWS_WWSO_Apps.pdf"
     }
   }
 }
