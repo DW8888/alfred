@@ -48,11 +48,9 @@ alfred/
 
 ## Frontend Setup
 1. cd frontend
-2. 
-pm install
+2. npm install
 3. Create .env.local (e.g., NEXT_PUBLIC_API_BASE=http://127.0.0.1:8000)
-4. 
-pm run dev
+4. npm run dev
 5. Open http://localhost:3000
 6. Use the API Endpoint card to point at your backend, then drive the workflow (fetch jobs, view matches, generate docs).
 
