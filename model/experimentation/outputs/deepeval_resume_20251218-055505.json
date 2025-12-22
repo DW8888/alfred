@@ -1,0 +1,10 @@
+[
+  {
+    "job_id": 668,
+    "job_title": "Senior Data Analyst",
+    "punctuality_score": 0.875,
+    "punctuality_reason": "The score is 0.88 because the actual output inaccurately suggests that Darwhin Gomez is currently pursuing a Master of Science degree, whereas the retrieval context confirms he has already obtained it. Additionally, the actual output incorrectly provides a completion date for his Bachelor of Technology degree, which is not mentioned in the retrieval context.",
+    "tone_score": 0.0,
+    "tone_reason": "The response is a resume (Summary, Core Competencies, Professional Experience at AWS/WOPLLI, Projects like Alfred, Education and Certifications) and does not follow the evaluation steps: it fails to identify tone indicators, provide 1\u20135 ratings for Professionalism, Action-Oriented, and Persona Alignment, perform cross-comparison, or compute an average score."
+  }
+]

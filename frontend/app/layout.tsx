@@ -8,6 +8,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Alfred Control Panel",
   description: "Manage Alfred preferences, jobs, and generated documents.",
+  icons: {
+    icon: "/alfred-favicon.png",
+    shortcut: "/alfred-favicon.png",
+    apple: "/alfred-favicon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

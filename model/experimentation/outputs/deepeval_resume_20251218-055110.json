@@ -1,0 +1,10 @@
+[
+  {
+    "job_id": 668,
+    "job_title": "Senior Data Analyst",
+    "punctuality_score": 0.9736842105263158,
+    "punctuality_reason": "The score is 0.97 because the only contradiction is a minor error in the GitHub profile URL, which is a small detail and does not significantly impact the overall faithfulness of the actual output to the retrieval context.",
+    "tone_score": 0.9,
+    "tone_reason": "Professionalism: Clear, formal resume with well-structured sections (Summary, Core Competencies, Experience, Projects, Education, Certifications) and minimal errors; minor nit like \u201cPostgre\u201d instead of \u201cPostgreSQL.\u201d Action-Oriented: Strong action verbs and quantifiable impact throughout (e.g., automated pipeline processing 1M+ records, 5\u00d7 faster feedback loops, reduced time to apply by 60%, boosted applications by 300%). Persona Alignment: Excellent fit for a cloud/AI technologist/Solutions Architect persona, citing AWS/Azure, Bedrock, SageMaker, Glue, QuickSight, and LLM work. Averaging the three rubric scores yields a high result."
+  }
+]

@@ -51,6 +51,11 @@ class Job(Base):
         back_populates="job",
         cascade="all, delete-orphan",
     )
+    prompt_experiments = relationship(
+        "PromptExperiment",
+        back_populates="job",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self):
         return f"<Job(title={self.title}, company={self.company}, location={self.location})>"
@@ -84,6 +89,11 @@ class GeneratedArtifact(Base):
     created_at = Column(DateTime(timezone=True), default=now_eastern)
 
     job = relationship("Job", back_populates="generated_artifacts")
+    prompt_experiments = relationship(
+        "PromptExperiment",
+        back_populates="generated_artifact",
+        cascade="all, delete-orphan",
+    )
 
 
 
@@ -105,3 +115,27 @@ class ApplicationPackage(Base):
     created_at = Column(DateTime(timezone=True), default=now_eastern)
 
     job = relationship("Job", back_populates="application_packages")
+
+
+class PromptExperiment(Base):
+    __tablename__ = "prompt_experiments"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
+    variant_name = Column(String(50), nullable=False)
+    punctuality_score = Column(Float)
+    tone_score = Column(Float)
+    alignment_score = Column(Float)
+    impact_score = Column(Float)
+    credtail_score = Column(Float)
+    total_score = Column(Float)
+    judge_reasoning = Column(Text)
+    generated_artifact_id = Column(Integer, ForeignKey("generated_artifacts.id"))
+    created_at = Column(DateTime(timezone=True), default=now_eastern)
+
+    __table_args__ = (
+        UniqueConstraint("job_id", "variant_name", name="uq_prompt_experiment_job_variant"),
+    )
+
+    job = relationship("Job", back_populates="prompt_experiments")
+    generated_artifact = relationship("GeneratedArtifact", back_populates="prompt_experiments")

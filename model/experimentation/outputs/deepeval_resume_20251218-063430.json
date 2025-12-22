@@ -1,0 +1,16 @@
+[
+  {
+    "job_id": 668,
+    "job_title": "Senior Data Analyst",
+    "punctuality_score": 0.9318181818181818,
+    "punctuality_reason": "The score is 0.93 because the actual output incorrectly states the GitHub URL as https://github.com/DarwhinG instead of https://github.com/dw8888, and it lists some core competencies and database names slightly differently from the context, such as 'Postgre' instead of 'PostgreSQL' and includes libraries not explicitly mentioned. However, the internship dates match the context despite being in the future.",
+    "tone_score": 0.9,
+    "tone_reason": "The resume is highly professional with clear formatting, comprehensive technical skills, and detailed experience descriptions, earning near top marks for professionalism. It uses strong, action-oriented language with quantified achievements, reflecting a high level of action orientation. The content aligns well with a technologist persona focused on cloud architecture, AI, and data science, demonstrating excellent persona alignment. Minor deductions are due to slight variability in action verb strength across some bullet points.",
+    "alignment_score": 0.577319932690105,
+    "alignment_reason": "The resume demonstrates strong technical skills including Python, SQL, Git, and data modeling, aligning with the job's required tools and technologies. However, it lacks explicit mention of healthcare data experience and specific outcomes related to improving member experience or stakeholder insights at Progyny. Responsibilities are broadly described without direct reference to healthcare or Progyny-specific challenges, and achievements focus more on cloud architecture and AI projects rather than healthcare analytics or data modeling outcomes. The presence of generic statements and lack of tailored content to Progyny's mission and role expectations reduce alignment.",
+    "impact_score": 0.8817574471748733,
+    "impact_reason": "The bullets use clear, action-oriented language demonstrating initiative and effort, such as 'Automated a sentiment-analysis pipeline' and 'Fine-tuned models in SageMaker.' Most bullets include measurable results or business outcomes, like 'processing 1M+ records,' '5\u00d7 faster feedback loops,' and 'improving accuracy by ~5%.' However, a few bullets lack explicit metrics or outcomes, such as 'Designed and presented secure, scalable AWS reference architectures,' which slightly reduces the overall score. Passive voice is generally avoided, and the impact is well evidenced throughout.",
+    "credtail_score": 0.9,
+    "credtail_reason": "The Actual Output closely aligns with the Retrieval Context in terms of education, experience, and core skills, accurately reflecting degrees, employers, dates, and technologies such as AWS, Azure, Python, and relevant certifications. Minor discrepancies include the GitHub URL mismatch and slight elaboration in some project details not explicitly present in the context. No fabricated or missing critical information was found, demonstrating strong consistency and completeness overall."
+  }
+]

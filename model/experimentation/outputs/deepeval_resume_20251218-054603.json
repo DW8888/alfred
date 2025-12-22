@@ -1,0 +1,10 @@
+[
+  {
+    "job_id": 668,
+    "job_title": "Senior Data Analyst",
+    "punctuality_score": 0.9705882352941176,
+    "punctuality_reason": "The score is 0.97 because the only contradiction is a minor discrepancy in the GitHub profile URL, which is a small detail and does not significantly impact the overall faithfulness of the actual output to the retrieval context.",
+    "tone_score": 1.0,
+    "tone_reason": "Professionalism: Highly clear and formal resume with well-structured sections and correct, industry-appropriate language. Action-Oriented: Strong action verbs and quantifiable outcomes throughout (e.g., 1M+ records processed, 5\u00d7 faster feedback loops, ~5% accuracy gain, 800+ devices refurbished, 300% increase in weekly applications). Persona Alignment: Strong fit for cloud/AI/data solutions roles with emphasis on AWS (Bedrock, SageMaker, Glue, QuickSight), Azure, ETL/ELT, and LLM tooling. Averages across the three criteria are top-tier."
+  }
+]

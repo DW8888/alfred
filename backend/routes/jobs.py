@@ -187,6 +187,19 @@ def _persist_generated_artifact(
     if not job:
         raise HTTPException(status_code=404, detail=f"Job {job_id} not found for persistence.")
 
+    # Avoid writing duplicate variant artifacts (e.g., resume_P0)
+    if artifact_type.startswith("resume_"):
+        existing = (
+            db.query(GeneratedArtifact.id)
+            .filter(
+                GeneratedArtifact.job_id == job_id,
+                GeneratedArtifact.artifact_type == artifact_type,
+            )
+            .first()
+        )
+        if existing:
+            return existing.id
+
     record = GeneratedArtifact(
         job_id=job_id,
         job_title=job_title or (job.title or ""),
@@ -356,7 +369,7 @@ def generate_resume(request: JobMatchRequest, db: Session = Depends(get_db)):
 
         # 4. Generate reasoning + structured resume with GPT-4o-mini
         completion = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             response_format={"type": "json_object"},
             messages=[
                 {
@@ -452,7 +465,7 @@ def generate_resume_job_focus(request: JobMatchRequest, db: Session = Depends(ge
         job_skills_text = _summarize_job_skills(job_skills)
 
         completion = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             response_format={"type": "json_object"},
             messages=[
                 {
@@ -556,7 +569,7 @@ def generate_cover_letter(request: JobMatchRequest, db: Session = Depends(get_db
         context = "\n\n---\n\n".join([row.content for row in rows])
 
         completion = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {
                     "role": "system",

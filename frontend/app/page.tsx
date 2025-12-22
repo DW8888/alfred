@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type PersonalInfo = {
@@ -398,9 +399,16 @@ export default function ControlPanelPage() {
 
   return (
     <>
-      <header className="hero">
-        <h1>Alfred Control Panel</h1>
-        <p>Manage your profile, preferences, and job workflows.</p>
+      <header className="hero hero-banner">
+        <div className="hero-content">
+          <div>
+            <h1>Alfred Control Panel</h1>
+            <p>Manage your profile, preferences, and job workflows.</p>
+          </div>
+          <Link className="btn hero-link" href="/personas">
+            Open Persona Viewer
+          </Link>
+        </div>
       </header>
 
       <main className="container">
@@ -725,10 +733,11 @@ export default function ControlPanelPage() {
             </div>
           )}
         </section>
+
         </div>
 
         <aside className="console-column">
-          <section className="card">
+          <section className="card console-card">
             <h2>Result Console</h2>
             <pre className="console">{consoleMessage}</pre>
           </section>

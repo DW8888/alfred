@@ -37,3 +37,6 @@ logs/
 # SQLite or local dev DBs
 *.db
 *.sqlite3
+
+# Generated evaluation artifacts
+model/experimentation/outputs/**/*.md
